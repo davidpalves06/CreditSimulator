@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="dist/index.js" defer></script>
+</head>
+
+<body class="flex justify-center min-h-screen bg-gray-100">
+    <div class="text-center mt-5">
+        <h1 class="text-3xl font-bold mb-6">CreditSimulator</h1>
+        <select id="creditOptions" name="options"
+            class="p-3 text-lg border border-gray-300 rounded-md bg-white focus:outline-none focus:border-blue-500 mb-4">
+            <option value="fixa">Fixa</option>
+            <option value="variavel">Variável</option>
+            <option value="mista">Mista</option>
+        </select>
+        <div id="fixaBox"
+            class="flex flex-col space-y-2 p-4 border border-gray-300 rounded-md max-w-2xl bg-white mx-auto">
+            <p>A opção Fixa oferece uma taxa de juros constante durante todo o período do crédito, garantindo
+                previsibilidade nas parcelas.</p>
+            <div class="flex flex-row w-full justify-around">
+                <div class="flex flex-col items-center gap-y-1">
+                    <label for="interestRate" class="block text-sm font-medium text-gray-700">Taxa de Juros (%)</label>
+                    <input type="number" id="interestRate" step="0.01" min="0" value="3.00" required
+                        class=" p-2 w-20 border text-center border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="Ex: 5.25">
+                </div>
+                <div class="flex flex-col items-center gap-y-1">
+                    <label for="months" class="block text-sm font-medium text-gray-700">Prazo (meses)</label>
+                    <input type="number" id="months" step="1" min="1" value="240" required
+                        class="p-2 text-center w-20 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="Ex: 360">
+                </div>
+                <div class="flex flex-col items-center gap-y-1">
+                    <label for="creditValue" class="block text-sm font-medium text-gray-700">Valor do Crédito
+                        (€)</label>
+                    <input type="number" id="creditValue" step="0.01" min="0" value="100000" pattern="^\d+(?:\.\d{1,2})?$" required
+                        class="p-2 w-28 border text-center border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="Ex: 100000">
+                </div>
+            </div>
+            <button type="button"
+                class="w-full bg-blue-500 text-white p-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 cursor-pointer">Calcular</button>
+        </div>
+        <div id="variavelBox" class="p-4 border border-gray-300 rounded-md bg-white max-w-md mx-auto hidden">
+            <p>A opção Variável possui taxas de juros que podem mudar com base em índices econômicos, podendo resultar
+                em parcelas variáveis.</p>
+        </div>
+        <div id="mistaBox" class="p-4 border border-gray-300 rounded-md bg-white max-w-md mx-auto hidden">
+            <p>A opção Mista combina uma taxa fixa inicial por um período e depois passa a ser variável, equilibrando
+                estabilidade e flexibilidade.</p>
+        </div>
+    </div>
+</body>
+
+</html>
