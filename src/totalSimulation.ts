@@ -63,5 +63,8 @@ function simulateTotalCredit(
   months: number,
   creditValue: number
 ) {
-  throw new Error("Function not implemented.");
+  let noAmortSimulationResult = simulateCreditNoAmort(creditValue,months,interestRate,0,months,0);
+  let amortSimulationResult = simulateCreditWithAmort(creditValue,months,interestRate,0,1000,3,0.5,450,months,0);
+  console.log("Saved:", (parseFloat(noAmortSimulationResult.total) - parseFloat(amortSimulationResult.total)).toFixed(2),"€");
+  
 }
