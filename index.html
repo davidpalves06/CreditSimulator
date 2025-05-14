@@ -50,7 +50,8 @@
             <button type="button" id="totalCalculateButton"
                 class="w-full bg-blue-500 text-white p-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 cursor-pointer disabled:bg-gray-500 disabled:cursor-wait">Calcular</button>
         </div>
-        <div id="particionadoBox" class="p-4 border border-gray-200 rounded-lg bg-white max-w-md mx-auto shadow-sm hidden">
+        <div id="particionadoBox"
+            class="p-4 border border-gray-200 rounded-lg bg-white max-w-md mx-auto shadow-sm hidden">
             <p class="text-gray-600 mb-4">A opção Mista combina uma taxa fixa inicial por um período e depois passa a
                 ser variável, equilibrando estabilidade e flexibilidade.</p>
             <div class="flex flex-col space-y-4">
@@ -79,6 +80,44 @@
                 <button type="button" id="mistaCalculateButton"
                     class="w-full bg-blue-500 text-white p-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200">Calcular</button>
             </div>
+        </div>
+        <div id="resultsBox" class="p-4 border border-gray-200 rounded-lg bg-white max-w-2xl mx-auto shadow-sm mt-5 hidden">
+            <h2 class="text-lg font-semibold mb-2">Comparação de crédito</h2>
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="border-b">
+                        <th class="py-2">Métrica</th>
+                        <th class="py-2 text-right">Sem amortizar</th>
+                        <th class="py-2 text-right">A amortizar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-1">Custo Total (€)</td>
+                        <td class="py-1 text-right" id="totalA"></td>
+                        <td class="py-1 text-right" id="totalB"></td>
+                    </tr>
+                    <tr>
+                        <td class="py-1">Total pago em juros (€)</td>
+                        <td class="py-1 text-right" id="interestA"></td>
+                        <td class="py-1 text-right" id="interestB"></td>
+                    </tr>
+                    <tr>
+                        <td class="py-1">Total pago em amortizações (€)</td>
+                        <td class="py-1 text-right" id="amortsA">0</td>
+                        <td class="py-1 text-right" id="amortsB"></td>
+                    </tr>
+                    <tr>
+                        <td class="py-1">Prazo do crédito (Months)</td>
+                        <td class="py-1 text-right" id="monthsA"></td>
+                        <td class="py-1 text-right" id="monthsB"></td>
+                    </tr>
+                    <tr class="border-t font-semibold">
+                        <td class="py-2">Poupança (€)</td>
+                        <td class="py-2 text-right" colspan="2" id="savings"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </body>

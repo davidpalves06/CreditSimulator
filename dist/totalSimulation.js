@@ -3,6 +3,7 @@ const calculateButton = document.getElementById("totalCalculateButton");
 const interestRateInput = document.getElementById("totalInterestRate");
 const deadlineInput = document.getElementById("totalMonths");
 const totalErrorMessage = document.getElementById("totalErrorMessage");
+const resultBox = document.getElementById("resultsBox");
 calculateButton.addEventListener("click", (event) => {
     const interestRate = parseFloat(interestRateInput.value);
     const months = parseInt(deadlineInput.value);
@@ -40,6 +41,14 @@ function validateTotalInput(interestRate, months, creditValue) {
 }
 function simulateTotalCredit(interestRate, months, creditValue) {
     let noAmortSimulationResult = simulateCreditNoAmort(creditValue, months, interestRate, 0, months, 0);
-    let amortSimulationResult = simulateCreditWithAmort(creditValue, months, interestRate, 0, 1000, 3, 0.5, 450, months, 0);
-    console.log("Saved:", (parseFloat(noAmortSimulationResult.total) - parseFloat(amortSimulationResult.total)).toFixed(2), "€");
+    let amortSimulationResult = simulateCreditWithAmort(creditValue, months, interestRate, 0, 1000, 3, 0.5, 0, months, 0);
+    resultBox.classList.remove('hidden');
+    document.getElementById("totalA").textContent = noAmortSimulationResult.total;
+    document.getElementById("totalB").textContent = amortSimulationResult.total;
+    document.getElementById("interestA").textContent = noAmortSimulationResult.inInterest;
+    document.getElementById("interestB").textContent = amortSimulationResult.inInterest;
+    document.getElementById("monthsA").textContent = months.toString();
+    document.getElementById("monthsB").textContent = amortSimulationResult.endMonth.toString();
+    document.getElementById("amortsB").textContent = amortSimulationResult.inAmort;
+    document.getElementById("savings").textContent = (parseFloat(noAmortSimulationResult.total) - parseFloat(amortSimulationResult.total)).toFixed(2);
 }
