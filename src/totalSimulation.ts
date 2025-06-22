@@ -75,6 +75,7 @@ function validateTotalInput(
     return false;
   }
 
+  totalErrorMessage.classList.add("hidden")
   return true;
 }
 

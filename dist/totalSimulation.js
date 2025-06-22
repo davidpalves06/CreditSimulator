@@ -49,6 +49,7 @@ function validateTotalInput(interestRate, months, creditValue) {
         totalErrorMessage.classList.remove("hidden");
         return false;
     }
+    totalErrorMessage.classList.add("hidden");
     return true;
 }
 function simulateTotalCredit(interestRate, months, creditValue) {
