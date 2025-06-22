@@ -19,8 +19,16 @@ interestRateInput.addEventListener('blur', (event: Event) => {
   formatDecimalNumber(interestRateInput);
 })
 
+interestRateInput.addEventListener('input', () => {
+  restrictDecimalInput(interestRateInput, 100, 7)
+})
+
 deadlineInput.addEventListener('blur', () => {
   formatInteger(deadlineInput);
+})
+
+deadlineInput.addEventListener('input', () => {
+  restrictIntegerInput(deadlineInput, 1000, 6)
 })
 
 calculateButton.addEventListener("click", (event: Event) => {

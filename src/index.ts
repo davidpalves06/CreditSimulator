@@ -34,14 +34,54 @@ function formatInteger(input: HTMLInputElement) {
   }
 }
 
+function restrictDecimalInput(input: HTMLInputElement, maxValue: number, maxLength: number) {
+  let value = parseFloat(input.value);
+
+  if (input.value.length > maxLength) {
+    input.value = value.toFixed(2);
+  }
+
+  if (!isNaN(value) && (value > maxValue)) {
+    input.value = maxValue.toFixed(2);
+  }
+
+  if (input.value.includes('e') || input.value.includes('E')) {
+    input.value = input.value.replace(/[eE]/g, '');
+  }
+}
+
+function restrictIntegerInput(input: HTMLInputElement, maxValue: number, maxLength: number) {
+  let value = parseInt(input.value);
+
+  if (input.value.length > maxLength) {
+    input.value = value.toString();
+  }
+
+  if (!isNaN(value) && (value > maxValue)) {
+    input.value = maxValue.toString();
+  }
+
+  if (input.value.includes('e') || input.value.includes('E')) {
+    input.value = input.value.replace(/[eE]/g, '');
+  }
+}
+
 creditValueInput.addEventListener("blur", () => {
   formatDecimalNumber(creditValueInput)
 });
+
+creditValueInput.addEventListener("input", () => {
+  restrictDecimalInput(creditValueInput, 1000000000, 13)
+})
 
 const minMonthlyValueInput = document.getElementById("minMonthlyValue") as HTMLInputElement;
 
 minMonthlyValueInput.addEventListener('blur', () => {
   formatDecimalNumber(minMonthlyValueInput);
+})
+
+minMonthlyValueInput.addEventListener('input', () => {
+  restrictDecimalInput(minMonthlyValueInput, 1000000, 10)
 })
 
 const monthlyChargesInput = document.getElementById("monthlyCharges") as HTMLInputElement;
@@ -50,10 +90,18 @@ monthlyChargesInput.addEventListener('blur', () => {
   formatDecimalNumber(monthlyChargesInput);
 })
 
+monthlyChargesInput.addEventListener('input', () => {
+  restrictDecimalInput(monthlyChargesInput, 1000000, 10)
+})
+
 const amortValueInput = document.getElementById("amortValue") as HTMLInputElement;
 
 amortValueInput.addEventListener('blur', () => {
   formatDecimalNumber(amortValueInput);
+})
+
+amortValueInput.addEventListener('input', () => {
+  restrictDecimalInput(amortValueInput, 1000000, 10)
 })
 
 const amortPeriodInput = document.getElementById("amortPeriod") as HTMLInputElement;
@@ -62,10 +110,18 @@ amortPeriodInput.addEventListener('blur', () => {
   formatInteger(amortPeriodInput);
 })
 
+amortPeriodInput.addEventListener('input', () => {
+  restrictIntegerInput(amortPeriodInput, 1000, 6)
+})
+
 const amortComissionInput = document.getElementById("amortComission") as HTMLInputElement;
 
 amortComissionInput.addEventListener('blur', () => {
   formatDecimalNumber(amortComissionInput);
+})
+
+amortComissionInput.addEventListener('input', () => {
+  restrictDecimalInput(amortComissionInput, 100, 5)
 })
 
 const periodContainer = document.getElementById(

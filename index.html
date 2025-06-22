@@ -27,21 +27,25 @@
                 previsibilidade nas parcelas.</p>
             <div class="w-full mx-auto p-4">
                 <h2 class="text-lg font-semibold mb-2">Parâmetros do crédito</h2>
-                <table class="w-full border-collapse text-left">
+                <table class="w-full table-fixed border-collapse text-left">
+                    <colgroup>
+                        <col class="w-[70%]" />
+                        <col class="w-[30%]" />
+                    </colgroup>
                     <thead>
                         <tr class="bg-gray-100">
-                            <th scope="col"
-                                class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300 border-dotted">
+                            <th
+                                class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
                                 Descrição</th>
-                            <th scope="col" class="px-4 py-2 text-left text-sm font-medium text-gray-700">Valor</th>
+                            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Valor</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300 border-dotted">
+                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-blue-500 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-totalInterestRate">
@@ -52,18 +56,21 @@
                                     </span>
                                 </div>
                             </td>
-                            <td class=" px-4 py-2">
-                                <input type="number" id="totalInterestRate" step="0.01" min="0" value="3.00" required
-                                    aria-describedby="tooltip-totalInterestRate"
-                                    class="p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                    placeholder="Ex: 5.25" />
+                            <td class="truncate px-4 py-2">
+                                <div class="flex items-center w-full relative">
+                                    <input type="number" id="totalInterestRate" step="0.01" min="0" value="3.00"
+                                        required aria-describedby="tooltip-totalInterestRate" maxlength=7
+                                        class="w-full p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                                        placeholder="Ex: 5.25" />
+                                    <span class="absolute right-0 text-base text-gray-600">%</span>
+                                </div>
                             </td>
                         </tr>
                         <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300 border-dotted">
+                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-blue-500 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-totalMonths">
@@ -75,17 +82,20 @@
                                 </div>
                             </td>
                             <td class="px-4 py-2">
-                                <input type="number" id="totalMonths" step="1" min="1" value="240" required
-                                    aria-describedby="tooltip-totalMonths"
-                                    class="p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                    placeholder="Ex: 360" />
+                                <div class="flex items-center w-full relative">
+                                    <input type="number" id="totalMonths" step="1" min="1" value="240" required
+                                        aria-describedby="tooltip-totalMonths"
+                                        class="p-2 w-full focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                                        placeholder="Ex: 360" />
+                                    <span class="absolute right-0 text-base text-gray-600">Meses</span>
+                                </div>
                             </td>
                         </tr>
                         <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300 border-dotted">
+                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-blue-500 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-totalCreditValue">
@@ -97,17 +107,20 @@
                                 </div>
                             </td>
                             <td class="px-4 py-2">
-                                <input type="number" id="totalCreditValue" step="0.01" min="0" value="100000.00"
-                                    required aria-describedby="tooltip-totalCreditValue"
-                                    class="p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                    placeholder="Ex: 100000" />
+                                <div class="flex items-center w-full relative">
+                                    <input type="number" id="totalCreditValue" step="0.01" min="0" value="100000.00"
+                                        required aria-describedby="tooltip-totalCreditValue"
+                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                                        placeholder="Ex: 100000" />
+                                    <span class="absolute right-0 text-base text-gray-600">€</span>
+                                </div>
                             </td>
                         </tr>
                         <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300 border-dotted">
+                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-blue-500 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-minMonthlyValue">
@@ -119,17 +132,20 @@
                                 </div>
                             </td>
                             <td class="px-4 py-2">
-                                <input type="number" id="minMonthlyValue" step="0.01" min="0" value="400.00" required
-                                    aria-describedby="tooltip-minMonthlyValue"
-                                    class="p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                    placeholder="Ex: 400" />
+                                <div class="flex items-center w-full relative">
+                                    <input type="number" id="minMonthlyValue" step="0.01" min="0" value="400.00"
+                                        required aria-describedby="tooltip-minMonthlyValue"
+                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                                        placeholder="Ex: 400" />
+                                    <span class="absolute right-0 text-base text-gray-600">€</span>
+                                </div>
                             </td>
                         </tr>
                         <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300 border-dotted">
+                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-blue-500 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-monthlyCharges">
@@ -141,17 +157,20 @@
                                 </div>
                             </td>
                             <td class="px-4 py-2">
-                                <input type="number" id="monthlyCharges" step="0.01" min="0" value="70.00" required
-                                    aria-describedby="tooltip-monthlyCharges"
-                                    class="p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                    placeholder="Ex: 70" />
+                                <div class="flex items-center w-full relative">
+                                    <input type="number" id="monthlyCharges" step="0.01" min="0" value="70.00" required
+                                        aria-describedby="tooltip-monthlyCharges"
+                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                                        placeholder="Ex: 70" />
+                                    <span class="absolute right-0 text-base text-gray-600">€</span>
+                                </div>
                             </td>
                         </tr>
                         <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300 border-dotted">
+                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-blue-500 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-amortValue">
@@ -163,17 +182,21 @@
                                 </div>
                             </td>
                             <td class="px-4 py-2">
-                                <input type="number" id="amortValue" step="0.01" min="0" value="500.00" required
-                                    aria-describedby="tooltip-amortValue"
-                                    class="p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                    placeholder="Ex: 500" />
+                                <div class="flex items-center w-full relative">
+
+                                    <input type="number" id="amortValue" step="0.01" min="0" value="500.00" required
+                                        aria-describedby="tooltip-amortValue"
+                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                                        placeholder="Ex: 500" />
+                                    <span class="absolute right-0 text-base text-gray-600">€</span>
+                                </div>
                             </td>
                         </tr>
                         <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300 border-dotted">
+                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-blue-500 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-amortPeriod">
@@ -185,17 +208,20 @@
                                 </div>
                             </td>
                             <td class="px-4 py-2">
-                                <input type="number" id="amortPeriod" step="1" min="0" value="3" required
-                                    aria-describedby="tooltip-amortPeriod"
-                                    class="p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                    placeholder="Ex: 3" />
+                                <div class="flex items-center w-full relative">
+                                    <input type="number" id="amortPeriod" step="1" min="0" value="3" required
+                                        aria-describedby="tooltip-amortPeriod"
+                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                                        placeholder="Ex: 3" />
+                                    <span class="absolute right-0 text-base text-gray-600">Meses</span>
+                                </div>
                             </td>
                         </tr>
                         <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300 border-dotted">
+                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-blue-500 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-amortComission">
@@ -207,10 +233,13 @@
                                 </div>
                             </td>
                             <td class="px-4 py-2">
-                                <input type="number" id="amortComission" step="0.01" min="0" value="2.00" required
-                                    aria-describedby="tooltip-amortComission"
-                                    class="p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                    placeholder="Ex: 2" />
+                                <div class="flex items-center w-full relative">
+                                    <input type="number" id="amortComission" step="0.01" min="0" value="2.00" required
+                                        aria-describedby="tooltip-amortComission"
+                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                                        placeholder="Ex: 2" />
+                                    <span class="absolute right-0 text-base text-gray-600">%</span>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
