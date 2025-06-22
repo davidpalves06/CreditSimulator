@@ -15,6 +15,14 @@ const resultBox = document.getElementById(
   "resultsBox"
 ) as HTMLDivElement;
 
+interestRateInput.addEventListener('blur', (event: Event) => {
+  formatDecimalNumber(interestRateInput);
+})
+
+deadlineInput.addEventListener('blur', () => {
+  formatInteger(deadlineInput);
+})
+
 calculateButton.addEventListener("click", (event: Event) => {
   const interestRate = parseFloat(interestRateInput.value);
   const months = parseInt(deadlineInput.value);
@@ -67,13 +75,13 @@ function simulateTotalCredit(
   months: number,
   creditValue: number
 ) {
-  let noAmortSimulationResult = simulateCreditNoAmort(creditValue,months,interestRate,0,months,0);
-  let amortSimulationResult = simulateCreditWithAmort(creditValue,months,interestRate,0,1000,3,0.5,0,months,0);
+  let noAmortSimulationResult = simulateCreditNoAmort(creditValue, months, interestRate, 0, months, 0);
+  let amortSimulationResult = simulateCreditWithAmort(creditValue, months, interestRate, 0, 1000, 3, 0.5, 0, months, 0);
 
   resultBox.classList.remove('hidden');
   (document.getElementById("totalA") as HTMLTableCellElement).textContent = noAmortSimulationResult.total;
   (document.getElementById("totalB") as HTMLTableCellElement).textContent = amortSimulationResult.total;
-  
+
   (document.getElementById("interestA") as HTMLTableCellElement).textContent = noAmortSimulationResult.inInterest;
   (document.getElementById("interestB") as HTMLTableCellElement).textContent = amortSimulationResult.inInterest;
 
@@ -84,5 +92,5 @@ function simulateTotalCredit(
 
   (document.getElementById("savings") as HTMLTableCellElement).textContent = (parseFloat(noAmortSimulationResult.total) - parseFloat(amortSimulationResult.total)).toFixed(2);
 
-   
+
 }

@@ -18,16 +18,55 @@ const creditValueInput = document.getElementById(
   "totalCreditValue"
 ) as HTMLInputElement;
 
-creditValueInput.addEventListener("input", () => {
-  const regex = /^\d*\.?\d{0,2}$/;
-  const rawValue = creditValueInput.value;
-  if (!regex.test(rawValue)) {
-    creditValueInput.value =
-      creditValueInput.getAttribute("data-last-valid") || "";
-  } else {
-    creditValueInput.setAttribute("data-last-valid", rawValue);
+function formatDecimalNumber(input: HTMLInputElement) {
+  const value = parseFloat(input.value);
+
+  if (!isNaN(value)) {
+    input.value = value.toFixed(2);
   }
+}
+
+function formatInteger(input: HTMLInputElement) {
+  const value = parseInt(input.value);
+
+  if (!isNaN(value)) {
+    input.value = value.toString();
+  }
+}
+
+creditValueInput.addEventListener("blur", () => {
+  formatDecimalNumber(creditValueInput)
 });
+
+const minMonthlyValueInput = document.getElementById("minMonthlyValue") as HTMLInputElement;
+
+minMonthlyValueInput.addEventListener('blur', () => {
+  formatDecimalNumber(minMonthlyValueInput);
+})
+
+const monthlyChargesInput = document.getElementById("monthlyCharges") as HTMLInputElement;
+
+monthlyChargesInput.addEventListener('blur', () => {
+  formatDecimalNumber(monthlyChargesInput);
+})
+
+const amortValueInput = document.getElementById("amortValue") as HTMLInputElement;
+
+amortValueInput.addEventListener('blur', () => {
+  formatDecimalNumber(amortValueInput);
+})
+
+const amortPeriodInput = document.getElementById("amortPeriod") as HTMLInputElement;
+
+amortPeriodInput.addEventListener('blur', () => {
+  formatInteger(amortPeriodInput);
+})
+
+const amortComissionInput = document.getElementById("amortComission") as HTMLInputElement;
+
+amortComissionInput.addEventListener('blur', () => {
+  formatDecimalNumber(amortComissionInput);
+})
 
 const periodContainer = document.getElementById(
   "periodsContainer"
@@ -54,11 +93,10 @@ addPeriodButton.addEventListener("click", (event: Event) => {
     class="p-2 w-full border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
     placeholder="Ex: 12">
 </div>
-${
-  periodCount > 0
-    ? `<button type="button" class="remove-period bg-red-500 text-white p-2 rounded-lg shadow-md hover:bg-red-600 transition duration-200">Remover</button>`
-    : ""
-}
+${periodCount > 0
+      ? `<button type="button" class="remove-period bg-red-500 text-white p-2 rounded-lg shadow-md hover:bg-red-600 transition duration-200">Remover</button>`
+      : ""
+    }
   `;
 
   if (periodCount > 0) {

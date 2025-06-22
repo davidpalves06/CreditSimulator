@@ -4,6 +4,12 @@ const interestRateInput = document.getElementById("totalInterestRate");
 const deadlineInput = document.getElementById("totalMonths");
 const totalErrorMessage = document.getElementById("totalErrorMessage");
 const resultBox = document.getElementById("resultsBox");
+interestRateInput.addEventListener('blur', (event) => {
+    formatDecimalNumber(interestRateInput);
+});
+deadlineInput.addEventListener('blur', () => {
+    formatInteger(deadlineInput);
+});
 calculateButton.addEventListener("click", (event) => {
     const interestRate = parseFloat(interestRateInput.value);
     const months = parseInt(deadlineInput.value);

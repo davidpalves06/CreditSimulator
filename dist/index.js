@@ -12,16 +12,40 @@ select.addEventListener("change", () => {
     }
 });
 const creditValueInput = document.getElementById("totalCreditValue");
-creditValueInput.addEventListener("input", () => {
-    const regex = /^\d*\.?\d{0,2}$/;
-    const rawValue = creditValueInput.value;
-    if (!regex.test(rawValue)) {
-        creditValueInput.value =
-            creditValueInput.getAttribute("data-last-valid") || "";
+function formatDecimalNumber(input) {
+    const value = parseFloat(input.value);
+    if (!isNaN(value)) {
+        input.value = value.toFixed(2);
     }
-    else {
-        creditValueInput.setAttribute("data-last-valid", rawValue);
+}
+function formatInteger(input) {
+    const value = parseInt(input.value);
+    if (!isNaN(value)) {
+        input.value = value.toString();
     }
+}
+creditValueInput.addEventListener("blur", () => {
+    formatDecimalNumber(creditValueInput);
+});
+const minMonthlyValueInput = document.getElementById("minMonthlyValue");
+minMonthlyValueInput.addEventListener('blur', () => {
+    formatDecimalNumber(minMonthlyValueInput);
+});
+const monthlyChargesInput = document.getElementById("monthlyCharges");
+monthlyChargesInput.addEventListener('blur', () => {
+    formatDecimalNumber(monthlyChargesInput);
+});
+const amortValueInput = document.getElementById("amortValue");
+amortValueInput.addEventListener('blur', () => {
+    formatDecimalNumber(amortValueInput);
+});
+const amortPeriodInput = document.getElementById("amortPeriod");
+amortPeriodInput.addEventListener('blur', () => {
+    formatInteger(amortPeriodInput);
+});
+const amortComissionInput = document.getElementById("amortComission");
+amortComissionInput.addEventListener('blur', () => {
+    formatDecimalNumber(amortComissionInput);
 });
 const periodContainer = document.getElementById("periodsContainer");
 const addPeriodButton = document.getElementById("addPeriodButton");
