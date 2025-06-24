@@ -11,6 +11,27 @@ select.addEventListener("change", () => {
         boxes[key].classList.remove("hidden");
     }
 });
+function adjustSelectWidth(select) {
+    const measureSpan = document.getElementById("selectWidthMeasure");
+    measureSpan.textContent = select.options[select.selectedIndex].text;
+    const selectStyles = window.getComputedStyle(select);
+    measureSpan.style.fontFamily = selectStyles.fontFamily;
+    measureSpan.style.fontSize = selectStyles.fontSize;
+    measureSpan.style.fontWeight = selectStyles.fontWeight;
+    measureSpan.style.paddingLeft = selectStyles.paddingLeft;
+    measureSpan.style.paddingRight = selectStyles.paddingRight;
+    const textWidth = measureSpan.offsetWidth + 24;
+    const minWidth = 80;
+    const maxWidth = 300;
+    const newWidth = Math.min(Math.max(textWidth, minWidth), maxWidth);
+    select.style.width = `${newWidth}px`;
+}
+select.addEventListener("change", () => {
+    adjustSelectWidth(select);
+});
+document.addEventListener("DOMContentLoaded", function () {
+    adjustSelectWidth(select);
+});
 function formatDecimalNumber(input) {
     const value = parseFloat(input.value);
     if (!isNaN(value)) {
@@ -28,11 +49,11 @@ function restrictDecimalInput(input, maxValue, maxLength) {
     if (input.value.length > maxLength) {
         input.value = value.toFixed(2);
     }
-    if (!isNaN(value) && (value > maxValue)) {
+    if (!isNaN(value) && value > maxValue) {
         input.value = maxValue.toFixed(2);
     }
-    if (input.value.includes('e') || input.value.includes('E')) {
-        input.value = input.value.replace(/[eE]/g, '');
+    if (input.value.includes("e") || input.value.includes("E")) {
+        input.value = input.value.replace(/[eE]/g, "");
     }
 }
 function restrictIntegerInput(input, maxValue, maxLength) {
@@ -40,11 +61,11 @@ function restrictIntegerInput(input, maxValue, maxLength) {
     if (input.value.length > maxLength) {
         input.value = value.toString();
     }
-    if (!isNaN(value) && (value > maxValue)) {
+    if (!isNaN(value) && value > maxValue) {
         input.value = maxValue.toString();
     }
-    if (input.value.includes('e') || input.value.includes('E')) {
-        input.value = input.value.replace(/[eE]/g, '');
+    if (input.value.includes("e") || input.value.includes("E")) {
+        input.value = input.value.replace(/[eE]/g, "");
     }
 }
 const periodContainer = document.getElementById("periodsContainer");

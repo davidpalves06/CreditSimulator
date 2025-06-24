@@ -15,17 +15,21 @@
 
 <body class="flex justify-center min-h-screen bg-gray-100">
     <div class="text-center mt-5">
-        <h1 class="text-3xl font-bold mb-6">CreditSimulator</h1>
-        <select id="creditOptions" name="options"
-            class="p-3 text-lg border border-gray-300 rounded-md bg-white focus:outline-none focus:border-blue-500 mb-4">
-            <option value="total">Total</option>
-            <option value="particionado">Particionado</option>
-        </select>
+        <h1 class="text-5xl font-serif font-bold mb-6">CreditSimulator</h1>
+        <div class="relative inline-block">
+            <select id="creditOptions" name="options"
+                class="text-lg py-2 border border-gray-300 rounded-md bg-white focus:outline-none text-center focus:border-blue-500 mb-4">
+                <option value="total">Total</option>
+                <option value="particionado">Particionado</option>
+            </select>
+            <span id="selectWidthMeasure" class="absolute invisible text-base font-normal"></span>
+        </div>
         <div id="totalBox"
-            class="flex flex-col space-y-2 p-4 border border-gray-300 rounded-md max-w-2xl mb-5 bg-white mx-auto">
-            <p>
-                A opção Fixa oferece uma taxa de juros constante durante todo o
-                período do crédito, garantindo previsibilidade nas parcelas.
+            class="flex flex-col items-center space-y-2 p-4 border border-gray-300 rounded-md max-w-2xl mb-5 bg-white mx-auto">
+            <p class="mt-2 text-base font-normal text-gray-600">
+                A taxa de juros será constante ao longo da duração do empréstimo.<br>
+                Com este simulador conseguirá perceber a diferença entre amortizar o seu crédito e o quanto consegue
+                poupar.
             </p>
             <div class="w-full mx-auto p-4">
                 <h2 class="text-xl font-semibold mb-2">Parâmetros do crédito</h2>
@@ -50,7 +54,7 @@
                             <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group z-[8] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-totalInterestRate">
@@ -75,7 +79,7 @@
                             <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group z-[7] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-totalMonths">
@@ -99,7 +103,7 @@
                             <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group z-[6] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-totalCreditValue">
@@ -123,11 +127,12 @@
                             <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group z-[5] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-minMonthlyValue">
-                                            Valor mínimo da prestação mensal a pagar.
+                                            Valor mínimo da prestação mensal a pagar. Quando a prestação chegar a este
+                                            valor, as amortizações iram reduzir o prazo do crédito.
                                         </span>
                                     </span>
                                     <span class="lg:text-lg">Valor mínimo da prestação (€)
@@ -148,7 +153,7 @@
                             <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group z-[4] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-monthlyCharges">
@@ -173,11 +178,11 @@
                             <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group z-[3] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-amortValue">
-                                            Montante a pagar para reduzir o capital em dívida.
+                                            Montante a amortizar para reduzir o capital em dívida.
                                         </span>
                                     </span>
                                     <span class="lg:text-lg">Valor amortização (€) </span>
@@ -197,7 +202,7 @@
                             <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group z-[2] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-amortPeriod">
@@ -222,7 +227,7 @@
                             <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
                                 <div class="flex flex-row items-center justify-start">
                                     <span
-                                        class="relative group mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                                        class="relative group z-[1] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
                                         <span
                                             class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                                             id="tooltip-amortComission">
@@ -323,41 +328,42 @@
                 </table>
             </div>
         </div>
-    </div>
-    <div id="particionadoBox" class="p-4 border border-gray-200 rounded-lg bg-white max-w-md mx-auto shadow-sm hidden">
-        <p class="text-gray-600 mb-4">
-            A opção Mista combina uma taxa fixa inicial por um período e depois
-            passa a ser variável, equilibrando estabilidade e flexibilidade.
-        </p>
-        <div class="flex flex-col space-y-4">
-            <div id="periodsContainer" class="space-y-4">
-                <div class="period flex space-x-4 items-end">
-                    <div class="flex-1">
-                        <label for="period-0-interest"
-                            class="block text-sm font-medium text-gray-700 border-r-2 border-black">Taxa de Juros
-                            (%)</label>
-                        <input type="number" id="period-0-interest" step="0.01" min="0" required
-                            class="p-2 w-full border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            placeholder="Ex: 5.25" />
-                    </div>
-                    <div class="flex-1">
-                        <label for="period-0-deadline" class="block text-sm font-medium text-gray-700">Prazo
-                            (meses)</label>
-                        <input type="number" id="period-0-deadline" step="1" min="1" required
-                            class="p-2 w-full border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            placeholder="Ex: 12" />
+        <div id="particionadoBox"
+            class="p-4 border border-gray-200 rounded-lg bg-white max-w-md mx-auto shadow-sm hidden">
+            <p class="text-gray-600 mb-4">
+                A opção Mista combina uma taxa fixa inicial por um período e depois
+                passa a ser variável, equilibrando estabilidade e flexibilidade.
+            </p>
+            <div class="flex flex-col space-y-4">
+                <div id="periodsContainer" class="space-y-4">
+                    <div class="period flex space-x-4 items-end">
+                        <div class="flex-1">
+                            <label for="period-0-interest"
+                                class="block text-sm font-medium text-gray-700 border-r-2 border-black">Taxa de Juros
+                                (%)</label>
+                            <input type="number" id="period-0-interest" step="0.01" min="0" required
+                                class="p-2 w-full border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                placeholder="Ex: 5.25" />
+                        </div>
+                        <div class="flex-1">
+                            <label for="period-0-deadline" class="block text-sm font-medium text-gray-700">Prazo
+                                (meses)</label>
+                            <input type="number" id="period-0-deadline" step="1" min="1" required
+                                class="p-2 w-full border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                placeholder="Ex: 12" />
+                        </div>
                     </div>
                 </div>
+                <button type="button" id="addPeriodButton"
+                    class="w-full bg-green-500 text-white p-2 rounded-lg shadow-md hover:bg-green-600 transition duration-200">
+                    Adicionar Período
+                </button>
+                <div id="mistaErrorMessage" class="text-red-500 text-sm hidden"></div>
+                <button type="button" id="mistaCalculateButton"
+                    class="w-full bg-blue-500 text-white p-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200">
+                    Calcular
+                </button>
             </div>
-            <button type="button" id="addPeriodButton"
-                class="w-full bg-green-500 text-white p-2 rounded-lg shadow-md hover:bg-green-600 transition duration-200">
-                Adicionar Período
-            </button>
-            <div id="mistaErrorMessage" class="text-red-500 text-sm hidden"></div>
-            <button type="button" id="mistaCalculateButton"
-                class="w-full bg-blue-500 text-white p-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200">
-                Calcular
-            </button>
         </div>
     </div>
 </body>
