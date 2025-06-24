@@ -11,7 +11,10 @@ select.addEventListener("change", () => {
 
   if (key in boxes) {
     boxes[key].classList.remove("hidden");
+    boxes[key].classList.add("flex");
   }
+
+  adjustSelectWidth(select);
 });
 
 function adjustSelectWidth(select: HTMLSelectElement) {
@@ -35,10 +38,6 @@ function adjustSelectWidth(select: HTMLSelectElement) {
 
   select.style.width = `${newWidth}px`;
 }
-
-select.addEventListener("change", () => {
-  adjustSelectWidth(select);
-});
 
 document.addEventListener("DOMContentLoaded", function () {
   adjustSelectWidth(select);
@@ -99,45 +98,3 @@ function restrictIntegerInput(
     input.value = input.value.replace(/[eE]/g, "");
   }
 }
-
-const periodContainer = document.getElementById(
-  "periodsContainer"
-) as HTMLDivElement;
-const addPeriodButton = document.getElementById(
-  "addPeriodButton"
-) as HTMLButtonElement;
-let periodCount = 1;
-
-addPeriodButton.addEventListener("click", (event: Event) => {
-  const newPeriod = document.createElement("div");
-  newPeriod.className = "period flex space-x-4 items-end";
-
-  newPeriod.innerHTML = `
-<div class="flex-1">
-  <label for="period-${periodCount}-interest" class="block text-sm font-medium text-gray-700">Taxa de Juros(TAN%)</label>
-  <input type="number" id="period-${periodCount}-interest" step="0.01" min="0" required
-    class="p-2 w-full border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-    placeholder="Ex: 5.25">
-</div>
-<div class="flex-1">
-  <label for="period-${periodCount}-deadline" class="block text-sm font-medium text-gray-700">Prazo(meses)</label>
-  <input type="number" id="period-${periodCount}-deadline" step="1" min="1" required
-    class="p-2 w-full border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-    placeholder="Ex: 12">
-</div>
-${
-  periodCount > 0
-    ? `<button type="button" class="remove-period bg-red-500 text-white p-2 rounded-lg shadow-md hover:bg-red-600 transition duration-200">Remover</button>`
-    : ""
-}
-  `;
-
-  if (periodCount > 0) {
-    newPeriod.querySelector(".remove-period")?.addEventListener("click", () => {
-      periodContainer.removeChild(newPeriod);
-    });
-  }
-
-  periodCount += 1;
-  periodContainer.appendChild(newPeriod);
-});
