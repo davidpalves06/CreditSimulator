@@ -4,7 +4,7 @@ const interestRateInput = document.getElementById("totalInterestRate");
 const deadlineInput = document.getElementById("totalMonths");
 const totalErrorMessage = document.getElementById("totalErrorMessage");
 const creditValueInput = document.getElementById("totalCreditValue");
-const resultBox = document.getElementById("resultsBox");
+const resultBox = document.getElementById("totalResultsBox");
 const minMonthlyValueInput = document.getElementById("minMonthlyValue");
 const monthlyChargesInput = document.getElementById("monthlyCharges");
 const amortValueInput = document.getElementById("amortValue");
@@ -141,19 +141,20 @@ function simulateTotalCredit(interestRate, months, creditValue, minMonthlyValue,
     let amortSimulationResult = simulateCreditWithAmort(creditValue, months, interestRate, monthlyCharges, amortValue, amortPeriod, amortComission, minMonthlyValue, months, 0);
     resultBox.classList.remove("hidden");
     document.getElementById("totalA").textContent =
-        noAmortSimulationResult.total;
+        noAmortSimulationResult.total + " €";
     document.getElementById("totalB").textContent =
-        amortSimulationResult.total;
+        amortSimulationResult.total + " €";
     document.getElementById("interestA").textContent =
-        noAmortSimulationResult.inInterest;
+        noAmortSimulationResult.inInterest + " €";
     document.getElementById("interestB").textContent =
-        amortSimulationResult.inInterest;
+        amortSimulationResult.inInterest + " €";
     document.getElementById("monthsA").textContent =
         months.toString();
     document.getElementById("monthsB").textContent =
         amortSimulationResult.endMonth.toString();
     document.getElementById("amortsB").textContent =
-        amortSimulationResult.inAmort;
-    document.getElementById("savings").textContent = (parseFloat(noAmortSimulationResult.total) -
-        parseFloat(amortSimulationResult.total)).toFixed(2);
+        amortSimulationResult.inAmort + " €";
+    document.getElementById("savings").textContent =
+        (parseFloat(noAmortSimulationResult.total) -
+            parseFloat(amortSimulationResult.total)).toFixed(2) + " €";
 }

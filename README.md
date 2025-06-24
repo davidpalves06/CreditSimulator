@@ -1,7 +1,10 @@
 # CreditSimulator
-Credit Simulation 
+
+Credit Simulation
 
 npx @tailwindcss/cli -i source.css -o style.css --watch
 
 Next steps:
-- Use and validate all fields on calculation
+
+- Verify all text.
+- Start working on particioned loan
