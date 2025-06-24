@@ -15,7 +15,51 @@ function updateIndexesOnTable() {
     indexCell.innerHTML = `${i}`;
     i++;
   }
+
+  updateRemoveButtonOnRows();
 }
+
+function addDragMotionToRows() {
+  let parcelRows = parcelTableBody.getElementsByClassName(
+    "parcelRow"
+  ) as HTMLCollectionOf<HTMLTableRowElement>;
+  for (const parcelRow of parcelRows) {
+    parcelRow.addEventListener("dragstart", handleDragStart);
+    parcelRow.addEventListener("dragover", handleDragOver);
+    parcelRow.addEventListener("drop", handleDrop);
+    parcelRow.addEventListener("dragend", handleDragEnd);
+  }
+}
+
+function updateRemoveButtonOnRows() {
+  let parcelRows = Array.from(
+    parcelTableBody.getElementsByClassName("parcelRow")
+  ) as HTMLTableRowElement[];
+
+  for (let index = 1; index <= parcelRows.length; index++) {
+    const row = parcelRows[index - 1];
+    Array.from(row.getElementsByClassName("remove-period")).forEach((node) =>
+      row.removeChild(node)
+    );
+
+    if (index != 1) {
+      let removeButton = document.createElement("button");
+      removeButton.classList =
+        "absolute -right-4 top-1/4 remove-period bg-red-500 text-white px-2 rounded-lg shadow-md hover:bg-red-600 transition duration-200";
+      removeButton.type = "button";
+      removeButton.innerHTML = "!";
+      row.appendChild(removeButton);
+      removeButton.addEventListener("click", () => {
+        parcelTableBody.removeChild(row);
+        periodCount--;
+        updateIndexesOnTable();
+      });
+    }
+  }
+}
+
+updateIndexesOnTable();
+addDragMotionToRows();
 
 let draggedRow: HTMLTableRowElement | null = null;
 
@@ -59,21 +103,6 @@ function handleDragEnd(event: DragEvent) {
   draggedRow = null;
   updateIndexesOnTable();
 }
-
-function addDragMotionToRows() {
-  let parcelRows = parcelTableBody.getElementsByClassName(
-    "parcelRow"
-  ) as HTMLCollectionOf<HTMLTableRowElement>;
-  for (const parcelRow of parcelRows) {
-    parcelRow.addEventListener("dragstart", handleDragStart);
-    parcelRow.addEventListener("dragover", handleDragOver);
-    parcelRow.addEventListener("drop", handleDrop);
-    parcelRow.addEventListener("dragend", handleDragEnd);
-  }
-}
-
-updateIndexesOnTable();
-addDragMotionToRows();
 
 addPeriodButton.addEventListener("click", (event: Event) => {
   const newPeriod = document.createElement("tr");
@@ -126,20 +155,7 @@ addPeriodButton.addEventListener("click", (event: Event) => {
         <span class="absolute right-0 text-base text-gray-600">$</span>
     </div>
 </td>
-${
-  periodCount > 0
-    ? `<button type="button" class="absolute -right-4 top-1/4 remove-period bg-red-500 text-white px-2 rounded-lg shadow-md hover:bg-red-600 transition duration-200">!</button>`
-    : ""
-}
   `;
-
-  if (periodCount > 0) {
-    newPeriod.querySelector(".remove-period")?.addEventListener("click", () => {
-      parcelTableBody.removeChild(newPeriod);
-      periodCount--;
-      updateIndexesOnTable();
-    });
-  }
 
   parcelTableBody.appendChild(newPeriod);
   addDragMotionToRows();
