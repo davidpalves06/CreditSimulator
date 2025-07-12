@@ -246,7 +246,6 @@ parcelCalculateButton.addEventListener("click", (event) => {
         };
         parcelValues.push(parcelValue);
     }
-    console.log(parcelValues);
     if (validateParcelSimulation(parcelValues, creditValue, minMonthlyValue, monthlyCharges)) {
         // simulateCreditNoAmort();
     }

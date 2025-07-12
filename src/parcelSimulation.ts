@@ -344,8 +344,6 @@ parcelCalculateButton.addEventListener("click", (event: Event) => {
     parcelValues.push(parcelValue);
   }
 
-  console.log(parcelValues);
-
   if (
     validateParcelSimulation(
       parcelValues,

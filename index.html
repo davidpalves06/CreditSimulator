@@ -445,23 +445,75 @@
                     <thead>
                         <tr class="bg-gray-100">
                             <th
-                                class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
+                                class="px-4 py-2 text-left text-sm font-normal text-gray-700 border-r-2 border-gray-300">
                                 -
                             </th>
-                            <th class="text-center text-sm font-medium text-gray-700 border-r-2 border-gray-300 px-1">
-                                Taxa de Juros
+                            <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
+                                <div class="flex flex-row items-center justify-start">
+                                    <span
+                                        class="hidden md:flex relative group z-[8] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
+                                        <span
+                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            id="tooltip-totalInterestRate">
+                                            Taxa Anual Nominal, percentagem de juros aplicada ao
+                                            crédito.
+                                        </span>
+                                    </span>
+                                    <span class="lg:text-lg">Taxa de Juros</span>
+                                </div>
                             </th>
-                            <th class="text-center text-sm font-medium text-gray-700 border-r-2 border-gray-300 px-1">
-                                Duração (meses)
+                            <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
+                                <div class="flex flex-row items-center justify-start">
+                                    <span
+                                        class="hidden md:flex relative group z-[7] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
+                                        <span
+                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            id="tooltip-totalMonths">
+                                            Duração do período em meses.
+                                        </span>
+                                    </span>
+                                    <span class="lg:text-lg">Duração (meses) </span>
+                                </div>
                             </th>
-                            <th class="text-center text-sm font-medium text-gray-700 border-r-2 border-gray-300 px-1">
-                                Valor a amortizar
+                            <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
+                                <div class="flex flex-row items-center justify-start">
+                                    <span
+                                        class="hidden md:flex relative group z-[3] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
+                                        <span
+                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            id="tooltip-amortValue">
+                                            Montante a amortizar para reduzir o capital em dívida.
+                                        </span>
+                                    </span>
+                                    <span class="lg:text-lg">Valor a amortizar</span>
+                                </div>
                             </th>
-                            <th class="text-center text-sm font-medium text-gray-700 border-r-2 border-gray-300 px-1">
-                                Periocidade (meses)
+                            <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
+                                <div class="flex flex-row items-center justify-start">
+                                    <span
+                                        class="hidden md:flex relative group z-[2] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
+                                        <span
+                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            id="tooltip-amortPeriod">
+                                            Intervalo em meses para realizar amortizações.
+                                        </span>
+                                    </span>
+                                    <span class="lg:text-lg">Periocidade (meses)
+                                    </span>
+                                </div>
                             </th>
-                            <th class="text-center text-sm font-medium text-gray-700 px-1">
-                                Comissão a amortizar
+                            <th class="text-center text-sm font-normal text-gray-700 px-1">
+                                <div class="flex flex-row items-center justify-start">
+                                    <span
+                                        class="hidden md:flex relative group z-[1] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
+                                        <span
+                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            id="tooltip-amortComission">
+                                            Percentagem cobrada sobre o valor amortizado.
+                                        </span>
+                                    </span>
+                                    <span class="lg:text-lg">Comissão a amortizar</span>
+                                </div>
                             </th>
                         </tr>
                     </thead>
