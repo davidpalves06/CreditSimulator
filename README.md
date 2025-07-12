@@ -6,4 +6,6 @@ npx @tailwindcss/cli -i source.css -o style.css --watch
 
 Next steps:
 
-- Fix trash emote
+- Add constant values
+- Validate all inputs to simulate
+- Get simulation result
