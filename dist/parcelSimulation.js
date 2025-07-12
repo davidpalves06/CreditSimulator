@@ -2,7 +2,31 @@
 const addPeriodButton = document.getElementById("addPeriodButton");
 const parcelTableBody = document.getElementById("parcelTableBody");
 let periodCount = 1;
+const totalMonthsSpan = document.getElementById("parcelTotalMonths");
+let totalMonths = 0;
+const parcelErrorMessage = document.getElementById("parcelErrorMessage");
 const parcelCalculateButton = document.getElementById("parcelCalculateButton");
+const parcelCreditValueInput = document.getElementById("parcelCreditValue");
+const parcelMonthlyChargesInput = document.getElementById("parcelMonthlyCharges");
+const parcelMinMonthlyValueInput = document.getElementById("parcelMinMonthlyValue");
+parcelCreditValueInput.addEventListener("blur", () => {
+    formatDecimalNumber(parcelCreditValueInput);
+});
+parcelCreditValueInput.addEventListener("input", () => {
+    restrictDecimalInput(parcelCreditValueInput, 1000000000, 13);
+});
+parcelMinMonthlyValueInput.addEventListener("blur", () => {
+    formatDecimalNumber(parcelMinMonthlyValueInput);
+});
+parcelMinMonthlyValueInput.addEventListener("input", () => {
+    restrictDecimalInput(parcelMinMonthlyValueInput, 1000000000, 13);
+});
+parcelMonthlyChargesInput.addEventListener("blur", () => {
+    formatDecimalNumber(parcelMonthlyChargesInput);
+});
+parcelMonthlyChargesInput.addEventListener("input", () => {
+    restrictDecimalInput(parcelMonthlyChargesInput, 1000000000, 13);
+});
 function updateIndexesOnTable() {
     let indexCells = parcelTableBody.getElementsByClassName("index-cell");
     let i = 1;
@@ -45,6 +69,14 @@ function updateRemoveButtonOnRows() {
         }
     }
 }
+function updateTotalMonths() {
+    const allParcelDuration = document.getElementsByClassName("parcelDuration");
+    totalMonths = 0;
+    for (const parcelDuration of allParcelDuration) {
+        totalMonths += parseInt(parcelDuration.value);
+    }
+    totalMonthsSpan.innerHTML = `${totalMonths}`;
+}
 function updateEventListeners() {
     const allParcelInterestRates = document.getElementsByClassName("parcelInterestRate");
     const allParcelDuration = document.getElementsByClassName("parcelDuration");
@@ -62,6 +94,7 @@ function updateEventListeners() {
     for (const parcelDuration of allParcelDuration) {
         parcelDuration.addEventListener("blur", () => {
             formatInteger(parcelDuration);
+            updateTotalMonths();
         });
         parcelDuration.addEventListener("input", () => {
             restrictIntegerInput(parcelDuration, 720, 6);
@@ -95,6 +128,7 @@ function updateEventListeners() {
 updateIndexesOnTable();
 addDragMotionToRows();
 updateEventListeners();
+updateTotalMonths();
 let draggedRow = null;
 function handleDragStart(event) {
     const target = event.target;
@@ -111,7 +145,6 @@ function handleDragOver(event) {
 function handleDrop(event) {
     event.preventDefault();
     const targetRow = event.target.closest("tr");
-    console.log(draggedRow, targetRow);
     if (targetRow &&
         draggedRow !== targetRow &&
         targetRow.parentElement === parcelTableBody) {
@@ -139,47 +172,47 @@ addPeriodButton.addEventListener("click", (event) => {
     newPeriod.innerHTML = `
 <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 index-cell">
 </td>
-<td class="truncate px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+<td class="truncate px-4 py-2 border-r-2 border-gray-300">
     <div class="flex items-center w-full relative">
         <input type="number" step="0.01" min="0" value="3.00" required
             aria-describedby="tooltip-parcelInterestRate" maxlength="7"
-            class="w-full p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelInterestRate"
+            class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelInterestRate"
             placeholder="Ex: 5.25" />
-        <span class="absolute right-0 text-base text-gray-600">%</span>
+        <span class="absolute -right-2 text-base text-gray-600">%</span>
     </div>
 </td>
-<td class="truncate px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+<td class="truncate px-4 py-2 border-r-2 border-gray-300">
     <div class="flex items-center w-full relative">
-        <input type="number" step="0.01" min="0" value="3.00" required
+        <input type="number" step="1" min="0" value="3" required
             aria-describedby="tooltip-parcelDuration" maxlength="7"
-            class="w-full p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelDuration"
+            class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelDuration"
             placeholder="Ex: 5.25" />
     </div>
 </td>
-<td class="truncate px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+<td class="truncate px-4 py-2 border-r-2 border-gray-300">
     <div class="flex items-center w-full relative">
         <input type="number" step="0.01" min="0" value="3.00" required
             aria-describedby="tooltip-parcelAmortValue" maxlength="7"
-            class="w-full p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortValue"
+            class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortValue"
             placeholder="Ex: 5.25" />
-        <span class="absolute right-0 text-base text-gray-600">$</span>
+        <span class="absolute -right-2 text-base text-gray-600">€</span>
     </div>
 </td>
-<td class="truncate px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+<td class="truncate px-4 py-2 border-r-2 border-gray-300">
     <div class="flex items-center w-full relative">
-        <input type="number" step="0.01" min="0" value="3.00" required
+        <input type="number" step="1" min="0" value="3" required
             aria-describedby="tooltip-parcelAmortPeriod" maxlength="7"
-            class="w-full p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortPeriod"
+            class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortPeriod"
             placeholder="Ex: 5.25" />
     </div>
 </td>
-<td class="truncate px-4 py-2 text-sm text-gray-700">
+<td class="truncate px-4 py-2">
     <div class="flex items-center w-full relative">
         <input type="number" step="0.01" min="0" value="3.00" required
             aria-describedby="tooltip-parcelAmortCommission" maxlength="7"
-            class="w-full p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortCommission"
+            class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortCommission"
             placeholder="Ex: 5.25" />
-        <span class="absolute right-0 text-base text-gray-600">$</span>
+        <span class="absolute -right-2 text-base text-gray-600">%</span>
     </div>
 </td>
   `;
@@ -194,6 +227,9 @@ parcelCalculateButton.addEventListener("click", (event) => {
     const allParcelAmortValue = document.getElementsByClassName("parcelAmortValue");
     const allParcelAmortPeriod = document.getElementsByClassName("parcelAmortPeriod");
     const allParcelAmortCommission = document.getElementsByClassName("parcelAmortCommission");
+    const creditValue = parseFloat(parcelCreditValueInput.value);
+    const minMonthlyValue = parseFloat(parcelMinMonthlyValueInput.value);
+    const monthlyCharges = parseFloat(parcelMonthlyChargesInput.value);
     const parcelValues = [];
     for (let i = 0; i < periodCount; i++) {
         const interestRate = parseFloat(allParcelInterestRates[i].value);
@@ -211,4 +247,78 @@ parcelCalculateButton.addEventListener("click", (event) => {
         parcelValues.push(parcelValue);
     }
     console.log(parcelValues);
+    if (validateParcelSimulation(parcelValues, creditValue, minMonthlyValue, monthlyCharges)) {
+        // simulateCreditNoAmort();
+    }
 });
+function validateParcelSimulation(parcelValues, creditValue, minMonthlyValue, monthlyCharges) {
+    if (isNaN(creditValue) || isNaN(minMonthlyValue) || isNaN(monthlyCharges)) {
+        parcelErrorMessage.textContent =
+            "Por favor, preencha todos os campos com valores válidos.";
+        parcelErrorMessage.classList.remove("hidden");
+        return false;
+    }
+    if (creditValue <= 0) {
+        parcelErrorMessage.textContent = "O valor do crédito deve ser maior que 0.";
+        parcelErrorMessage.classList.remove("hidden");
+        return false;
+    }
+    if (minMonthlyValue < 0) {
+        parcelErrorMessage.textContent =
+            "O valor da prestação mínima deve ser maior ou igual a 0.";
+        parcelErrorMessage.classList.remove("hidden");
+        return false;
+    }
+    if (monthlyCharges < 0) {
+        parcelErrorMessage.textContent =
+            "O valor dos encargos mensais deve ser maior ou igual a 0.";
+        parcelErrorMessage.classList.remove("hidden");
+        return false;
+    }
+    for (let i = 0; i < parcelValues.length; i++) {
+        const parcelValue = parcelValues[i];
+        if (!validateParcelValue(parcelValue, i)) {
+            return false;
+        }
+    }
+    return true;
+}
+function validateParcelValue(parcelValue, i) {
+    const { interestRate, duration, amortValue, amortPeriod, amortCommission } = parcelValue;
+    if (isNaN(interestRate) ||
+        isNaN(duration) ||
+        isNaN(amortCommission) ||
+        isNaN(amortValue) ||
+        isNaN(amortPeriod)) {
+        parcelErrorMessage.textContent = `Por favor, preencha todos os campos do período ${i + 1} com valores válidos.`;
+        parcelErrorMessage.classList.remove("hidden");
+        return false;
+    }
+    if (interestRate < 0 || interestRate > 100) {
+        parcelErrorMessage.textContent = `A taxa de juros do período ${i + 1} deve estar entre 0% e 100%.`;
+        parcelErrorMessage.classList.remove("hidden");
+        return false;
+    }
+    if (duration < 1 || duration > 720) {
+        parcelErrorMessage.textContent = `O prazo do período ${i + 1} deve estar entre 1 e 720 meses.`;
+        parcelErrorMessage.classList.remove("hidden");
+        return false;
+    }
+    if (amortValue < 0) {
+        parcelErrorMessage.textContent = `O valor da amortização do período ${i + 1} deve ser maior ou igual a 0.`;
+        parcelErrorMessage.classList.remove("hidden");
+        return false;
+    }
+    if (amortPeriod <= 0) {
+        parcelErrorMessage.textContent = `O valor do período de amortização do período ${i + 1} deve ser maior que 0.`;
+        parcelErrorMessage.classList.remove("hidden");
+        return false;
+    }
+    if (amortCommission < 0) {
+        parcelErrorMessage.textContent = `O valor da comissão na amortização do período ${i + 1} deve ser maior ou igual a 0.`;
+        parcelErrorMessage.classList.remove("hidden");
+        return false;
+    }
+    parcelErrorMessage.classList.add("hidden");
+    return true;
+}

@@ -6,6 +6,5 @@ npx @tailwindcss/cli -i source.css -o style.css --watch
 
 Next steps:
 
-- Add constant values
-- Validate all inputs to simulate
+- Tooltip nos headers
 - Get simulation result
