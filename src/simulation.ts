@@ -1,10 +1,10 @@
-interface NoAmortSimulationResult {
+export interface NoAmortSimulationResult {
   total: number;
   inInterest: number;
   debtRemaining: number;
 }
 
-interface AmortSimulationResult {
+export interface AmortSimulationResult {
   total: number;
   inInterest: number;
   inAmort: number;
@@ -12,7 +12,7 @@ interface AmortSimulationResult {
   debtRemaining: number;
 }
 
-function simulateCreditNoAmort(
+export function simulateCreditNoAmort(
   inDebt: number,
   months: number,
   interestRate: number,
@@ -50,7 +50,7 @@ function simulateCreditNoAmort(
   };
 }
 
-function simulateCreditWithAmort(
+export function simulateCreditWithAmort(
   inDebt: number,
   months: number,
   interestRate: number,
@@ -87,17 +87,12 @@ function simulateCreditWithAmort(
     totalInterest += monthlyJuros;
     let amortização = monthly - monthlyJuros;
     remainingDebt = remainingDebt - amortização;
+    if (remainingDebt < 0) remainingDebt = 0;
     if ((currentMonth + 1) % amortPeriod == 0) {
       if (remainingDebt - amortValue < 0) {
+        totalWithAmort += remainingDebt + remainingDebt * amortComission * 0.01;
+        totalAmort += remainingDebt + remainingDebt * amortComission * 0.01;
         remainingDebt = 0;
-        totalWithAmort +=
-          remainingDebt -
-          amortValue +
-          (remainingDebt - amortValue) * amortComission * 0.01;
-        totalAmort +=
-          remainingDebt -
-          amortValue +
-          (remainingDebt - amortValue) * amortComission * 0.01;
       } else {
         remainingDebt -= amortValue;
         totalWithAmort += amortValue + amortValue * amortComission * 0.01;

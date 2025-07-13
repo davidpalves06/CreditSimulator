@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
   adjustSelectWidth(select);
 });
 
-function formatDecimalNumber(input: HTMLInputElement) {
+export function formatDecimalNumber(input: HTMLInputElement) {
   const value = parseFloat(input.value);
 
   if (!isNaN(value)) {
@@ -51,7 +51,7 @@ function formatDecimalNumber(input: HTMLInputElement) {
   }
 }
 
-function formatInteger(input: HTMLInputElement) {
+export function formatInteger(input: HTMLInputElement) {
   const value = parseInt(input.value);
 
   if (!isNaN(value)) {
@@ -59,7 +59,7 @@ function formatInteger(input: HTMLInputElement) {
   }
 }
 
-function restrictDecimalInput(
+export function restrictDecimalInput(
   input: HTMLInputElement,
   maxValue: number,
   maxLength: number
@@ -79,7 +79,7 @@ function restrictDecimalInput(
   }
 }
 
-function restrictIntegerInput(
+export function restrictIntegerInput(
   input: HTMLInputElement,
   maxValue: number,
   maxLength: number

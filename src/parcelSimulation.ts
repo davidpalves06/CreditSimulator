@@ -1,3 +1,16 @@
+import {
+  formatDecimalNumber,
+  restrictDecimalInput,
+  formatInteger,
+  restrictIntegerInput,
+} from ".";
+import {
+  type NoAmortSimulationResult,
+  type AmortSimulationResult,
+  simulateCreditNoAmort,
+  simulateCreditWithAmort,
+} from "./simulation";
+
 const addPeriodButton = document.getElementById(
   "addPeriodButton"
 ) as HTMLButtonElement;
@@ -169,7 +182,7 @@ function updateEventListeners() {
       formatDecimalNumber(parcelAmortValue);
     });
     parcelAmortValue.addEventListener("input", () => {
-      restrictDecimalInput(amortValueInput, 1000000000, 13);
+      restrictDecimalInput(parcelAmortValue, 1000000000, 13);
     });
   }
 
@@ -241,7 +254,7 @@ function handleDragEnd(event: DragEvent) {
   updateIndexesOnTable();
 }
 
-addPeriodButton.addEventListener("click", (event: Event) => {
+addPeriodButton.addEventListener("click", () => {
   const newPeriod = document.createElement("tr");
   newPeriod.draggable = true;
   newPeriod.className = "border-b border-gray-200 relative parcelRow";
@@ -309,7 +322,7 @@ interface ParcelValue {
   amortCommission: number;
 }
 
-parcelCalculateButton.addEventListener("click", (event: Event) => {
+parcelCalculateButton.addEventListener("click", () => {
   const allParcelInterestRates = document.getElementsByClassName(
     "parcelInterestRate"
   ) as HTMLCollectionOf<HTMLInputElement>;

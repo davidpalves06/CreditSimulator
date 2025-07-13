@@ -2,669 +2,671 @@
 <html lang="pt">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Credit Simulator</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
-    <script src="dist/index.js" defer></script>
-    <script src="dist/totalSimulation.js" defer></script>
-    <script src="dist/simulation.js" defer></script>
-    <script src="dist/parcelSimulation.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Credit Simulator</title>
+  <link rel="stylesheet" href="/src/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script type="module" src="src/" defer></script>
+  <script type="module" src="src/totalSimulation.ts" defer></script>
+  <script type="module" src="src/simulation.ts" defer></script>
+  <script type="module" src="src/parcelSimulation.ts" defer></script>
 </head>
 
 <body class="flex justify-center min-h-screen bg-gray-100">
-    <div class="text-center mt-5">
-        <h1 class="text-5xl font-serif font-bold mb-6">CreditSimulator</h1>
-        <div class="relative inline-block">
-            <select id="creditOptions" name="options"
-                class="text-lg py-2 border border-gray-300 rounded-md bg-white focus:outline-none text-center focus:border-blue-500 mb-4">
-                <option value="total">Total</option>
-                <option value="particionado">Particionado</option>
-            </select>
-            <span id="selectWidthMeasure" class="absolute invisible text-base font-normal"></span>
-        </div>
-        <div id="totalBox"
-            class="flex flex-col items-center space-y-2 p-4 border border-gray-300 rounded-md max-w-5xl mb-5 bg-white mx-auto">
-            <p class="mt-2 text-base font-normal text-gray-600">
-                A taxa de juros será constante ao longo da duração do empréstimo.<br>
-                Com este simulador conseguirá perceber a diferença entre amortizar o seu crédito e o quanto consegue
-                poupar.
-            </p>
-            <div class="w-full mx-auto p-4">
-                <h2 class="text-xl font-semibold mb-2">Parâmetros do crédito</h2>
-                <table class="w-full table-fixed border-collapse text-left">
-                    <colgroup>
-                        <col class="w-[70%]" />
-                        <col class="w-[30%]" />
-                    </colgroup>
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th
-                                class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
-                                Descrição
-                            </th>
-                            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                                Valor
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[8] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-totalInterestRate">
-                                            Taxa Anual Nominal, percentagem de juros aplicada ao
-                                            crédito.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Taxa de Juros (TAN%) </span>
-                                </div>
-                            </td>
-                            <td class="truncate px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="totalInterestRate" step="0.01" min="0" value="3.00"
-                                        required aria-describedby="tooltip-totalInterestRate" maxlength="7"
-                                        class="w-full p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 5.25" />
-                                    <span class="absolute right-0 text-base text-gray-600">%</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[7] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-totalMonths">
-                                            Duração total do crédito em meses.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Prazo (meses) </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="totalMonths" step="1" min="1" value="240" required
-                                        aria-describedby="tooltip-totalMonths"
-                                        class="p-2 w-full focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 360" />
-                                    <span class="absolute right-0 text-base text-gray-600">Meses</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[6] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-totalCreditValue">
-                                            Montante total do empréstimo solicitado.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Valor do Crédito (€) </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="totalCreditValue" step="0.01" min="0" value="100000.00"
-                                        required aria-describedby="tooltip-totalCreditValue"
-                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 100000" />
-                                    <span class="absolute right-0 text-base text-gray-600">€</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[5] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-minMonthlyValue">
-                                            Valor mínimo da prestação mensal a pagar. Quando a prestação chegar a este
-                                            valor, as amortizações iram reduzir o prazo do crédito.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Valor mínimo da prestação (€)
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="minMonthlyValue" step="0.01" min="0" value="400.00"
-                                        required aria-describedby="tooltip-minMonthlyValue"
-                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 400" />
-                                    <span class="absolute right-0 text-base text-gray-600">€</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[4] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-monthlyCharges">
-                                            Custos fixos mensais associados ao crédito (ex.:
-                                            comissões).
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Encargos Mensais (€) </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="monthlyCharges" step="0.01" min="0" value="70.00" required
-                                        aria-describedby="tooltip-monthlyCharges"
-                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 70" />
-                                    <span class="absolute right-0 text-base text-gray-600">€</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[3] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-amortValue">
-                                            Montante a amortizar para reduzir o capital em dívida.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Valor amortização (€) </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="amortValue" step="0.01" min="0" value="500.00" required
-                                        aria-describedby="tooltip-amortValue"
-                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 500" />
-                                    <span class="absolute right-0 text-base text-gray-600">€</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[2] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-amortPeriod">
-                                            Intervalo em meses para realizar amortizações.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Periodização da amortização (meses)
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="amortPeriod" step="1" min="0" value="3" required
-                                        aria-describedby="tooltip-amortPeriod"
-                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 3" />
-                                    <span class="absolute right-0 text-base text-gray-600">Meses</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[1] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-amortComission">
-                                            Percentagem cobrada sobre o valor amortizado.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Comissão da amortização (%) </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="amortComission" step="0.01" min="0" value="2.00" required
-                                        aria-describedby="tooltip-amortComission"
-                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 2" />
-                                    <span class="absolute right-0 text-base text-gray-600">%</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="totalErrorMessage" class="hidden text-red-500"></div>
-            <button type="button" id="totalCalculateButton"
-                class="w-full bg-blue-500 text-white p-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 cursor-pointer disabled:bg-gray-500 disabled:cursor-wait">
-                Calcular
-            </button>
-            <div id="totalResultsBox" class="p-4 rounded-lg mx-auto shadow-sm mt-5 hidden w-full">
-                <h2 class="text-xl font-semibold mb-2">Comparação de crédito</h2>
-                <table class="w-full text-left">
-                    <colgroup>
-                        <col class="w-[50%]" />
-                        <col class="w-[25%]" />
-                        <col class="w-[25%]" />
-                    </colgroup>
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th
-                                class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
-                                Métrica
-                            </th>
-                            <th
-                                class="px-4 py-2 text-sm font-medium text-gray-700 border-r-2 border-gray-300 text-right">
-                                Sem amortizar
-                            </th>
-                            <th class="px-4 py-2 text-sm font-medium text-gray-700 text-right">
-                                A amortizar
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
-                                Custo Total (€)
-                            </td>
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
-                                id="totalA"></td>
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                id="totalB"></td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
-                                Total pago em juros (€)
-                            </td>
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
-                                id="interestA"></td>
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                id="interestB"></td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
-                                Total pago em amortizações (€)
-                            </td>
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
-                                id="amortsA">
-                                0 €
-                            </td>
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                id="amortsB"></td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
-                                Duração do crédito (meses)
-                            </td>
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
-                                id="monthsA"></td>
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                id="monthsB"></td>
-                        </tr>
-                        <tr class="border-t font-semibold">
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700">
-                                Poupança (€)
-                            </td>
-                            <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                colspan="2" id="savings"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div id="particionadoBox"
-            class="flex-col items-center space-y-2 p-4 border border-gray-300 rounded-md max-w-5xl mb-5 bg-white mx-auto hidden">
-            <p class="text-gray-600 mb-4">
-                A opção Mista combina uma taxa fixa inicial por um período e depois
-                passa a ser variável, equilibrando estabilidade e flexibilidade.
-            </p>
-            <div class="w-full mx-auto mb-10">
-                <h2 class="text-xl font-semibold mb-2">Parâmetros do crédito</h2>
-                <table class="w-full table-fixed border-collapse text-left">
-                    <colgroup>
-                        <col class="w-[70%]" />
-                        <col class="w-[30%]" />
-                    </colgroup>
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th
-                                class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
-                                Descrição
-                            </th>
-                            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                                Valor
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[6] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-parcelCreditValue">
-                                            Montante total do empréstimo solicitado.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Valor do Crédito (€) </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="parcelCreditValue" step="0.01" min="0" value="100000.00"
-                                        required aria-describedby="tooltip-parcelCreditValue"
-                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 100000" />
-                                    <span class="absolute right-0 text-base text-gray-600">€</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[4] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-parcelMonthlyCharges">
-                                            Custos fixos mensais associados ao crédito (ex.:
-                                            comissões).
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Encargos Mensais (€) </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="parcelMonthlyCharges" step="0.01" min="0" value="70.00"
-                                        required aria-describedby="tooltip-parcelMonthlyCharges"
-                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 70" />
-                                    <span class="absolute right-0 text-base text-gray-600">€</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="relative group z-[5] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-parcelMinMonthlyValue">
-                                            Valor mínimo da prestação mensal a pagar. Quando a prestação chegar a este
-                                            valor, as amortizações iram reduzir o prazo do crédito.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Valor mínimo da prestação (€)
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" id="parcelMinMonthlyValue" step="0.01" min="0" value="400.00"
-                                        required aria-describedby="tooltip-parcelMinMonthlyValue"
-                                        class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
-                                        placeholder="Ex: 400" />
-                                    <span class="absolute right-0 text-base text-gray-600">€</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="flex flex-col items-center space-y-4">
-                <table class="w-full text-right">
-                    <colgroup>
-                        <col class="w-[5%]" />
-                        <col class="w-[19%]" />
-                        <col class="w-[19%]" />
-                        <col class="w-[19%]" />
-                        <col class="w-[19%]" />
-                        <col class="w-[19%]" />
-                    </colgroup>
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th
-                                class="px-4 py-2 text-left text-sm font-normal text-gray-700 border-r-2 border-gray-300">
-                                -
-                            </th>
-                            <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="hidden md:flex relative group z-[8] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-totalInterestRate">
-                                            Taxa Anual Nominal, percentagem de juros aplicada ao
-                                            crédito.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Taxa de Juros</span>
-                                </div>
-                            </th>
-                            <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="hidden md:flex relative group z-[7] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-totalMonths">
-                                            Duração do período em meses.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Duração (meses) </span>
-                                </div>
-                            </th>
-                            <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="hidden md:flex relative group z-[3] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-amortValue">
-                                            Montante a amortizar para reduzir o capital em dívida.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Valor a amortizar</span>
-                                </div>
-                            </th>
-                            <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="hidden md:flex relative group z-[2] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-amortPeriod">
-                                            Intervalo em meses para realizar amortizações.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Periocidade (meses)
-                                    </span>
-                                </div>
-                            </th>
-                            <th class="text-center text-sm font-normal text-gray-700 px-1">
-                                <div class="flex flex-row items-center justify-start">
-                                    <span
-                                        class="hidden md:flex relative group z-[1] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
-                                        <span
-                                            class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            id="tooltip-amortComission">
-                                            Percentagem cobrada sobre o valor amortizado.
-                                        </span>
-                                    </span>
-                                    <span class="lg:text-lg">Comissão a amortizar</span>
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="parcelTableBody">
-                        <tr class="relative border-b border-gray-200 parcelRow text-right" draggable="true">
-                            <td
-                                class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 index-cell hover:bg-gray-100">
-                            </td>
-                            <td class="truncate px-4 py-2 border-r-2 border-gray-300 hover:bg-gray-100">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" step="0.01" min="0" value="3.00" required
-                                        aria-describedby="tooltip-parcelInterestRate" maxlength="7"
-                                        class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelInterestRate"
-                                        placeholder="Ex: 5.25" />
-                                    <span class="absolute -right-2 text-base text-gray-600">%</span>
-                                </div>
-                            </td>
-                            <td class="truncate px-4 py-2 border-r-2 border-gray-300 hover:bg-gray-100">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" step="1" min="0" value="3" required
-                                        aria-describedby="tooltip-parcelDuration" maxlength="7"
-                                        class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelDuration"
-                                        placeholder="Ex: 5.25" />
-                                </div>
-                            </td>
-                            <td class="truncate px-4 py-2 border-r-2 border-gray-300 hover:bg-gray-100">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" step="0.01" min="0" value="3.00" required
-                                        aria-describedby="tooltip-parcelAmortValue" maxlength="7"
-                                        class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortValue"
-                                        placeholder="Ex: 5.25" />
-                                    <span class="absolute -right-2 text-base text-gray-600">€</span>
-                                </div>
-                            </td>
-                            <td class="truncate px-4 py-2 border-r-2 border-gray-300 hover:bg-gray-100">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" step="1" min="0" value="3" required
-                                        aria-describedby="tooltip-parcelAmortPeriod" maxlength="7"
-                                        class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortPeriod"
-                                        placeholder="Ex: 5.25" />
-                                </div>
-                            </td>
-                            <td class="truncate px-4 py-2 hover:bg-gray-100">
-                                <div class="flex items-center w-full relative">
-                                    <input type="number" step="0.01" min="0" value="3.00" required
-                                        aria-describedby="tooltip-parcelAmortCommission" maxlength="7"
-                                        class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortCommission"
-                                        placeholder="Ex: 5.25" />
-                                    <span class="absolute -right-2 text-base text-gray-600">%</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="text-gray-800 w-full lg:text-lg">
-                    Duração total do empréstimo: <span id="parcelTotalMonths"></span> meses
-                </div>
-                <button type="button" id="addPeriodButton"
-                    class="w-full bg-green-500 text-white p-2 rounded-lg shadow-md hover:bg-green-600 transition duration-200">
-                    Adicionar Período
-                </button>
-                <button type="button" id="parcelCalculateButton"
-                    class="w-full bg-blue-500 text-white p-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200">
-                    Calcular
-                </button>
-                <div id="parcelErrorMessage" class="text-red-500 hidden"></div>
-                <div id="parcelResultsBox" class="p-4 rounded-lg mx-auto shadow-sm mt-5 hidden w-full">
-                    <h2 class="text-xl font-semibold mb-2">Comparação de crédito</h2>
-                    <table class="w-full text-left">
-                        <colgroup>
-                            <col class="w-[50%]" />
-                            <col class="w-[25%]" />
-                            <col class="w-[25%]" />
-                        </colgroup>
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th
-                                    class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
-                                    Métrica
-                                </th>
-                                <th
-                                    class="px-4 py-2 text-sm font-medium text-gray-700 border-r-2 border-gray-300 text-right">
-                                    Sem amortizar
-                                </th>
-                                <th class="px-4 py-2 text-sm font-medium text-gray-700 text-right">
-                                    A amortizar
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b border-gray-200">
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
-                                    Custo Total (€)
-                                </td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
-                                    id="parcelTotalA"></td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                    id="parcelTotalB"></td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
-                                    Total pago em juros (€)
-                                </td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
-                                    id="parcelInterestA"></td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                    id="parcelInterestB"></td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
-                                    Total pago em amortizações (€)
-                                </td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
-                                    id="parcelAmortsA">
-                                    0 €
-                                </td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                    id="parcelAmortsB"></td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
-                                    Total pago em Encargos fixos (€)
-                                </td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
-                                    id="parcelChargesA">
-                                </td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                    id="parcelChargesB"></td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
-                                    Duração do crédito (meses)
-                                </td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
-                                    id="parcelMonthsA"></td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                    id="parcelMonthsB"></td>
-                            </tr>
-                            <tr class="border-t font-semibold">
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700">
-                                    Poupança (€)
-                                </td>
-                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
-                                    colspan="2" id="parcelSavings"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+  <div class="text-center mt-5">
+    <h1 class="text-5xl font-serif font-bold mb-6">CreditSimulator</h1>
+    <div class="relative inline-block">
+      <select id="creditOptions" name="options"
+        class="text-lg py-2 border border-gray-300 rounded-md bg-white focus:outline-none text-center focus:border-blue-500 mb-4">
+        <option value="total">Total</option>
+        <option value="particionado">Particionado</option>
+      </select>
+      <span id="selectWidthMeasure" class="absolute invisible text-base font-normal"></span>
     </div>
+    <div id="totalBox"
+      class="flex flex-col items-center space-y-2 p-4 border border-gray-300 rounded-md max-w-5xl mb-5 bg-white mx-auto">
+      <p class="mt-2 text-base font-normal text-gray-600">
+        A taxa de juros será constante ao longo da duração do empréstimo.<br>
+        Com este simulador conseguirá perceber a diferença entre amortizar o seu crédito e o quanto consegue
+        poupar.
+      </p>
+      <div class="w-full mx-auto p-4">
+        <h2 class="text-xl font-semibold mb-2">Parâmetros do crédito</h2>
+        <table class="w-full table-fixed border-collapse text-left">
+          <colgroup>
+            <col class="w-[70%]" />
+            <col class="w-[30%]" />
+          </colgroup>
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
+                Descrição
+              </th>
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                Valor
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[8] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-totalInterestRate">
+                      Taxa Anual Nominal, percentagem de juros aplicada ao
+                      crédito.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Taxa de Juros (TAN%) </span>
+                </div>
+              </td>
+              <td class="truncate px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="totalInterestRate" step="0.01" min="0" value="3.00" required
+                    aria-describedby="tooltip-totalInterestRate" maxlength="7"
+                    class="w-full p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 5.25" />
+                  <span class="absolute right-0 text-base text-gray-600">%</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[7] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-totalMonths">
+                      Duração total do crédito em meses.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Prazo (meses) </span>
+                </div>
+              </td>
+              <td class="px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="totalMonths" step="1" min="1" value="240" required
+                    aria-describedby="tooltip-totalMonths"
+                    class="p-2 w-full focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 360" />
+                  <span class="absolute right-0 text-base text-gray-600">Meses</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[6] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-totalCreditValue">
+                      Montante total do empréstimo solicitado.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Valor do Crédito (€) </span>
+                </div>
+              </td>
+              <td class="px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="totalCreditValue" step="0.01" min="0" value="100000.00" required
+                    aria-describedby="tooltip-totalCreditValue"
+                    class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 100000" />
+                  <span class="absolute right-0 text-base text-gray-600">€</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[5] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-minMonthlyValue">
+                      Valor mínimo da prestação mensal a pagar. Quando a prestação chegar a este
+                      valor, as amortizações iram reduzir o prazo do crédito.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Valor mínimo da prestação (€)
+                  </span>
+                </div>
+              </td>
+              <td class="px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="minMonthlyValue" step="0.01" min="0" value="400.00" required
+                    aria-describedby="tooltip-minMonthlyValue"
+                    class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 400" />
+                  <span class="absolute right-0 text-base text-gray-600">€</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[4] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-monthlyCharges">
+                      Custos fixos mensais associados ao crédito (ex.:
+                      comissões).
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Encargos Mensais (€) </span>
+                </div>
+              </td>
+              <td class="px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="monthlyCharges" step="0.01" min="0" value="70.00" required
+                    aria-describedby="tooltip-monthlyCharges"
+                    class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 70" />
+                  <span class="absolute right-0 text-base text-gray-600">€</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[3] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-amortValue">
+                      Montante a amortizar para reduzir o capital em dívida.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Valor amortização (€) </span>
+                </div>
+              </td>
+              <td class="px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="amortValue" step="0.01" min="0" value="500.00" required
+                    aria-describedby="tooltip-amortValue"
+                    class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 500" />
+                  <span class="absolute right-0 text-base text-gray-600">€</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[2] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-amortPeriod">
+                      Intervalo em meses para realizar amortizações.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Periodização da amortização (meses)
+                  </span>
+                </div>
+              </td>
+              <td class="px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="amortPeriod" step="1" min="0" value="3" required
+                    aria-describedby="tooltip-amortPeriod"
+                    class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 3" />
+                  <span class="absolute right-0 text-base text-gray-600">Meses</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[1] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-amortComission">
+                      Percentagem cobrada sobre o valor amortizado.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Comissão da amortização (%) </span>
+                </div>
+              </td>
+              <td class="px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="amortComission" step="0.01" min="0" value="2.00" required
+                    aria-describedby="tooltip-amortComission"
+                    class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 2" />
+                  <span class="absolute right-0 text-base text-gray-600">%</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="totalErrorMessage" class="hidden text-red-500"></div>
+      <button type="button" id="totalCalculateButton"
+        class="w-full bg-blue-500 text-white p-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 cursor-pointer disabled:bg-gray-500 disabled:cursor-wait">
+        Calcular
+      </button>
+      <div id="totalResultsBox" class="p-4 rounded-lg mx-auto shadow-sm mt-5 hidden w-full">
+        <h2 class="text-xl font-semibold mb-2">Comparação de crédito</h2>
+        <table class="w-full text-left">
+          <colgroup>
+            <col class="w-[50%]" />
+            <col class="w-[25%]" />
+            <col class="w-[25%]" />
+          </colgroup>
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
+                Métrica
+              </th>
+              <th class="px-4 py-2 text-sm font-medium text-gray-700 border-r-2 border-gray-300 text-right">
+                Sem amortizar
+              </th>
+              <th class="px-4 py-2 text-sm font-medium text-gray-700 text-right">
+                A amortizar
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                Custo Total (€)
+              </td>
+              <td
+                class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                id="totalA"></td>
+              <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums" id="totalB">
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                Total pago em juros (€)
+              </td>
+              <td
+                class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                id="interestA"></td>
+              <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums" id="interestB">
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                Total pago em amortizações (€)
+              </td>
+              <td
+                class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                id="amortsA">
+                0 €
+              </td>
+              <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums" id="amortsB">
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                Duração do crédito (meses)
+              </td>
+              <td
+                class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                id="monthsA"></td>
+              <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums" id="monthsB">
+              </td>
+            </tr>
+            <tr class="border-t font-semibold">
+              <td class="px-4 py-2 lg:text-lg text-sm text-gray-700">
+                Poupança (€)
+              </td>
+              <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums" colspan="2"
+                id="savings"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="particionadoBox"
+      class="flex-col items-center space-y-2 p-4 border border-gray-300 rounded-md max-w-5xl mb-5 bg-white mx-auto hidden">
+      <p class="text-gray-600 mb-4">
+        A opção Mista combina uma taxa fixa inicial por um período e depois
+        passa a ser variável, equilibrando estabilidade e flexibilidade.
+      </p>
+      <div class="w-full mx-auto mb-10">
+        <h2 class="text-xl font-semibold mb-2">Parâmetros do crédito</h2>
+        <table class="w-full table-fixed border-collapse text-left">
+          <colgroup>
+            <col class="w-[70%]" />
+            <col class="w-[30%]" />
+          </colgroup>
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
+                Descrição
+              </th>
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                Valor
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[6] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-parcelCreditValue">
+                      Montante total do empréstimo solicitado.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Valor do Crédito (€) </span>
+                </div>
+              </td>
+              <td class="px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="parcelCreditValue" step="0.01" min="0" value="100000.00" required
+                    aria-describedby="tooltip-parcelCreditValue"
+                    class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 100000" />
+                  <span class="absolute right-0 text-base text-gray-600">€</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[4] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-parcelMonthlyCharges">
+                      Custos fixos mensais associados ao crédito (ex.:
+                      comissões).
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Encargos Mensais (€) </span>
+                </div>
+              </td>
+              <td class="px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="parcelMonthlyCharges" step="0.01" min="0" value="70.00" required
+                    aria-describedby="tooltip-parcelMonthlyCharges"
+                    class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 70" />
+                  <span class="absolute right-0 text-base text-gray-600">€</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-4 py-2 text-sm text-gray-700 border-r-2 border-gray-300">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="relative group z-[5] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help flex items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-parcelMinMonthlyValue">
+                      Valor mínimo da prestação mensal a pagar. Quando a prestação chegar a este
+                      valor, as amortizações iram reduzir o prazo do crédito.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Valor mínimo da prestação (€)
+                  </span>
+                </div>
+              </td>
+              <td class="px-4 py-2">
+                <div class="flex items-center w-full relative">
+                  <input type="number" id="parcelMinMonthlyValue" step="0.01" min="0" value="400.00" required
+                    aria-describedby="tooltip-parcelMinMonthlyValue"
+                    class="w-full p-2 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums"
+                    placeholder="Ex: 400" />
+                  <span class="absolute right-0 text-base text-gray-600">€</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex flex-col items-center space-y-4">
+        <table class="w-full text-right">
+          <colgroup>
+            <col class="w-[5%]" />
+            <col class="w-[19%]" />
+            <col class="w-[19%]" />
+            <col class="w-[19%]" />
+            <col class="w-[19%]" />
+            <col class="w-[19%]" />
+          </colgroup>
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="px-4 py-2 text-left text-sm font-normal text-gray-700 border-r-2 border-gray-300">
+                -
+              </th>
+              <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="hidden md:flex relative group z-[8] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-totalInterestRate">
+                      Taxa Anual Nominal, percentagem de juros aplicada ao
+                      crédito.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Taxa de Juros</span>
+                </div>
+              </th>
+              <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="hidden md:flex relative group z-[7] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-totalMonths">
+                      Duração do período em meses.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Duração (meses) </span>
+                </div>
+              </th>
+              <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="hidden md:flex relative group z-[3] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-amortValue">
+                      Montante a amortizar para reduzir o capital em dívida.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Valor a amortizar</span>
+                </div>
+              </th>
+              <th class="text-center text-sm font-normal text-gray-700 border-r-2 border-gray-300 px-1">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="hidden md:flex relative group z-[2] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-amortPeriod">
+                      Intervalo em meses para realizar amortizações.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Periocidade (meses)
+                  </span>
+                </div>
+              </th>
+              <th class="text-center text-sm font-normal text-gray-700 px-1">
+                <div class="flex flex-row items-center justify-start">
+                  <span
+                    class="hidden md:flex relative group z-[1] mr-2 w-4 h-4 rounded-full bg-gray-400 opacity-85 text-white text-xs font-bold cursor-help items-center justify-center">i
+                    <span
+                      class="absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 w-64 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                      id="tooltip-amortComission">
+                      Percentagem cobrada sobre o valor amortizado.
+                    </span>
+                  </span>
+                  <span class="lg:text-lg">Comissão a amortizar</span>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="parcelTableBody">
+            <tr class="relative border-b border-gray-200 parcelRow text-right" draggable="true">
+              <td
+                class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 index-cell hover:bg-gray-100">
+              </td>
+              <td class="truncate px-4 py-2 border-r-2 border-gray-300 hover:bg-gray-100">
+                <div class="flex items-center w-full relative">
+                  <input type="number" step="0.01" min="0" value="3.00" required
+                    aria-describedby="tooltip-parcelInterestRate" maxlength="7"
+                    class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelInterestRate"
+                    placeholder="Ex: 5.25" />
+                  <span class="absolute -right-2 text-base text-gray-600">%</span>
+                </div>
+              </td>
+              <td class="truncate px-4 py-2 border-r-2 border-gray-300 hover:bg-gray-100">
+                <div class="flex items-center w-full relative">
+                  <input type="number" step="1" min="0" value="3" required aria-describedby="tooltip-parcelDuration"
+                    maxlength="7"
+                    class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelDuration"
+                    placeholder="Ex: 5.25" />
+                </div>
+              </td>
+              <td class="truncate px-4 py-2 border-r-2 border-gray-300 hover:bg-gray-100">
+                <div class="flex items-center w-full relative">
+                  <input type="number" step="0.01" min="0" value="3.00" required
+                    aria-describedby="tooltip-parcelAmortValue" maxlength="7"
+                    class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortValue"
+                    placeholder="Ex: 5.25" />
+                  <span class="absolute -right-2 text-base text-gray-600">€</span>
+                </div>
+              </td>
+              <td class="truncate px-4 py-2 border-r-2 border-gray-300 hover:bg-gray-100">
+                <div class="flex items-center w-full relative">
+                  <input type="number" step="1" min="0" value="3" required aria-describedby="tooltip-parcelAmortPeriod"
+                    maxlength="7"
+                    class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortPeriod"
+                    placeholder="Ex: 5.25" />
+                </div>
+              </td>
+              <td class="truncate px-4 py-2 hover:bg-gray-100">
+                <div class="flex items-center w-full relative">
+                  <input type="number" step="0.01" min="0" value="3.00" required
+                    aria-describedby="tooltip-parcelAmortCommission" maxlength="7"
+                    class="w-11/12 text-right p-1 focus:outline-none focus:border-b focus:border-b-gray-300 font-roboto tabular-nums parcelAmortCommission"
+                    placeholder="Ex: 5.25" />
+                  <span class="absolute -right-2 text-base text-gray-600">%</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-gray-800 w-full lg:text-lg">
+          Duração total do empréstimo: <span id="parcelTotalMonths"></span> meses
+        </div>
+        <button type="button" id="addPeriodButton"
+          class="w-full bg-green-500 text-white p-2 rounded-lg shadow-md hover:bg-green-600 transition duration-200">
+          Adicionar Período
+        </button>
+        <button type="button" id="parcelCalculateButton"
+          class="w-full bg-blue-500 text-white p-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200">
+          Calcular
+        </button>
+        <div id="parcelErrorMessage" class="text-red-500 hidden"></div>
+        <div id="parcelResultsBox" class="p-4 rounded-lg mx-auto shadow-sm mt-5 hidden w-full">
+          <h2 class="text-xl font-semibold mb-2">Comparação de crédito</h2>
+          <table class="w-full text-left">
+            <colgroup>
+              <col class="w-[50%]" />
+              <col class="w-[25%]" />
+              <col class="w-[25%]" />
+            </colgroup>
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
+                  Métrica
+                </th>
+                <th class="px-4 py-2 text-sm font-medium text-gray-700 border-r-2 border-gray-300 text-right">
+                  Sem amortizar
+                </th>
+                <th class="px-4 py-2 text-sm font-medium text-gray-700 text-right">
+                  A amortizar
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-200">
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                  Custo Total (€)
+                </td>
+                <td
+                  class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                  id="parcelTotalA"></td>
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                  id="parcelTotalB"></td>
+              </tr>
+              <tr class="border-b border-gray-200">
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                  Total pago em juros (€)
+                </td>
+                <td
+                  class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                  id="parcelInterestA"></td>
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                  id="parcelInterestB"></td>
+              </tr>
+              <tr class="border-b border-gray-200">
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                  Total pago em amortizações (€)
+                </td>
+                <td
+                  class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                  id="parcelAmortsA">
+                  0 €
+                </td>
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                  id="parcelAmortsB"></td>
+              </tr>
+              <tr class="border-b border-gray-200">
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                  Total pago em Encargos fixos (€)
+                </td>
+                <td
+                  class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                  id="parcelChargesA">
+                </td>
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                  id="parcelChargesB"></td>
+              </tr>
+              <tr class="border-b border-gray-200">
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                  Duração do crédito (meses)
+                </td>
+                <td
+                  class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                  id="parcelMonthsA"></td>
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                  id="parcelMonthsB"></td>
+              </tr>
+              <tr class="border-t font-semibold">
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700">
+                  Poupança (€)
+                </td>
+                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums" colspan="2"
+                  id="parcelSavings"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

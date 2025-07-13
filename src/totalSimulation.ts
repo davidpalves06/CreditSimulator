@@ -1,3 +1,11 @@
+import {
+  formatDecimalNumber,
+  formatInteger,
+  restrictDecimalInput,
+  restrictIntegerInput,
+} from ".";
+import { simulateCreditNoAmort, simulateCreditWithAmort } from "./simulation";
+
 const calculateButton = document.getElementById(
   "totalCalculateButton"
 ) as HTMLButtonElement;
@@ -41,7 +49,7 @@ creditValueInput.addEventListener("input", () => {
   restrictDecimalInput(creditValueInput, 1000000000, 13);
 });
 
-interestRateInput.addEventListener("blur", (event: Event) => {
+interestRateInput.addEventListener("blur", () => {
   formatDecimalNumber(interestRateInput);
 });
 
@@ -97,7 +105,7 @@ amortComissionInput.addEventListener("input", () => {
   restrictDecimalInput(amortComissionInput, 100, 5);
 });
 
-calculateButton.addEventListener("click", (event: Event) => {
+calculateButton.addEventListener("click", () => {
   const interestRate = parseFloat(interestRateInput.value);
   const months = parseInt(deadlineInput.value);
   const creditValue = parseFloat(creditValueInput.value);
