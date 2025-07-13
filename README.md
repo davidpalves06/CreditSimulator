@@ -6,5 +6,5 @@ npx @tailwindcss/cli -i source.css -o style.css --watch
 
 Next steps:
 
-- Tooltip nos headers
-- Get simulation result
+- Make spreadsheet with all monthly
+- More savings information

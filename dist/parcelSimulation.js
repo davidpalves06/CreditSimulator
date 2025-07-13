@@ -4,6 +4,7 @@ const parcelTableBody = document.getElementById("parcelTableBody");
 let periodCount = 1;
 const totalMonthsSpan = document.getElementById("parcelTotalMonths");
 let totalMonths = 0;
+const parcelResultBox = document.getElementById("parcelResultsBox");
 const parcelErrorMessage = document.getElementById("parcelErrorMessage");
 const parcelCalculateButton = document.getElementById("parcelCalculateButton");
 const parcelCreditValueInput = document.getElementById("parcelCreditValue");
@@ -65,6 +66,7 @@ function updateRemoveButtonOnRows() {
                 parcelTableBody.removeChild(row);
                 periodCount--;
                 updateIndexesOnTable();
+                updateTotalMonths();
             });
         }
     }
@@ -220,6 +222,7 @@ addPeriodButton.addEventListener("click", (event) => {
     addDragMotionToRows();
     updateIndexesOnTable();
     updateEventListeners();
+    updateTotalMonths();
 });
 parcelCalculateButton.addEventListener("click", (event) => {
     const allParcelInterestRates = document.getElementsByClassName("parcelInterestRate");
@@ -247,7 +250,7 @@ parcelCalculateButton.addEventListener("click", (event) => {
         parcelValues.push(parcelValue);
     }
     if (validateParcelSimulation(parcelValues, creditValue, minMonthlyValue, monthlyCharges)) {
-        // simulateCreditNoAmort();
+        simulateParcels(creditValue, minMonthlyValue, monthlyCharges, parcelValues);
     }
 });
 function validateParcelSimulation(parcelValues, creditValue, minMonthlyValue, monthlyCharges) {
@@ -320,4 +323,56 @@ function validateParcelValue(parcelValue, i) {
     }
     parcelErrorMessage.classList.add("hidden");
     return true;
+}
+function simulateParcels(creditValue, minMonthlyValue, monthlyCharges, parcels) {
+    let currentMonth = 0;
+    let noAmortSimulationResult = {
+        total: 0,
+        inInterest: 0,
+        debtRemaining: creditValue,
+    };
+    let amortSimulationResult = {
+        total: 0,
+        inAmort: 0,
+        inInterest: 0,
+        endMonth: 0,
+        debtRemaining: creditValue,
+    };
+    for (let i = 0; i < parcels.length; i++) {
+        const parcel = parcels[i];
+        let noAmortParcelSimulationResult = simulateCreditNoAmort(noAmortSimulationResult.debtRemaining, totalMonths, parcel.interestRate, monthlyCharges, parcel.duration, currentMonth);
+        noAmortSimulationResult = {
+            total: noAmortSimulationResult.total + noAmortParcelSimulationResult.total,
+            inInterest: noAmortSimulationResult.inInterest +
+                noAmortParcelSimulationResult.inInterest,
+            debtRemaining: noAmortParcelSimulationResult.debtRemaining,
+        };
+        if (amortSimulationResult.debtRemaining > 0) {
+            let amortParcelSimulationResult = simulateCreditWithAmort(amortSimulationResult.debtRemaining, totalMonths, parcel.interestRate, monthlyCharges, parcel.amortValue, parcel.amortPeriod, parcel.amortCommission, minMonthlyValue, parcel.duration, currentMonth);
+            amortSimulationResult = {
+                total: amortSimulationResult.total + amortParcelSimulationResult.total,
+                inAmort: amortSimulationResult.inAmort + amortParcelSimulationResult.inAmort,
+                inInterest: amortSimulationResult.inInterest +
+                    amortParcelSimulationResult.inInterest,
+                endMonth: amortParcelSimulationResult.endMonth,
+                debtRemaining: amortParcelSimulationResult.debtRemaining,
+            };
+            console.log(amortSimulationResult, amortParcelSimulationResult);
+        }
+        currentMonth += parcel.duration;
+    }
+    parcelResultBox.classList.remove("hidden");
+    document.getElementById("parcelTotalA").textContent = noAmortSimulationResult.total.toFixed(2) + " €";
+    document.getElementById("parcelTotalB").textContent = amortSimulationResult.total.toFixed(2) + " €";
+    document.getElementById("parcelInterestA").textContent = noAmortSimulationResult.inInterest.toFixed(2) + " €";
+    document.getElementById("parcelInterestB").textContent = amortSimulationResult.inInterest.toFixed(2) + " €";
+    document.getElementById("parcelMonthsA").textContent = totalMonths.toString();
+    document.getElementById("parcelMonthsB").textContent = amortSimulationResult.endMonth.toString();
+    document.getElementById("parcelAmortsB").textContent = amortSimulationResult.inAmort.toFixed(2) + " €";
+    document.getElementById("parcelChargesA").textContent = (monthlyCharges * totalMonths).toFixed(2) + " €";
+    document.getElementById("parcelChargesB").textContent =
+        (monthlyCharges * amortSimulationResult.endMonth).toFixed(2) + " €";
+    document.getElementById("parcelSavings").textContent =
+        (noAmortSimulationResult.total - amortSimulationResult.total).toFixed(2) +
+            " €";
 }

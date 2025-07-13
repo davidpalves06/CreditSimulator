@@ -580,6 +580,88 @@
                     Calcular
                 </button>
                 <div id="parcelErrorMessage" class="text-red-500 hidden"></div>
+                <div id="parcelResultsBox" class="p-4 rounded-lg mx-auto shadow-sm mt-5 hidden w-full">
+                    <h2 class="text-xl font-semibold mb-2">Comparação de crédito</h2>
+                    <table class="w-full text-left">
+                        <colgroup>
+                            <col class="w-[50%]" />
+                            <col class="w-[25%]" />
+                            <col class="w-[25%]" />
+                        </colgroup>
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th
+                                    class="px-4 py-2 text-left text-sm font-medium text-gray-700 border-r-2 border-gray-300">
+                                    Métrica
+                                </th>
+                                <th
+                                    class="px-4 py-2 text-sm font-medium text-gray-700 border-r-2 border-gray-300 text-right">
+                                    Sem amortizar
+                                </th>
+                                <th class="px-4 py-2 text-sm font-medium text-gray-700 text-right">
+                                    A amortizar
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200">
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                                    Custo Total (€)
+                                </td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                                    id="parcelTotalA"></td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                                    id="parcelTotalB"></td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                                    Total pago em juros (€)
+                                </td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                                    id="parcelInterestA"></td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                                    id="parcelInterestB"></td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                                    Total pago em amortizações (€)
+                                </td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                                    id="parcelAmortsA">
+                                    0 €
+                                </td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                                    id="parcelAmortsB"></td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                                    Total pago em Encargos fixos (€)
+                                </td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                                    id="parcelChargesA">
+                                </td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                                    id="parcelChargesB"></td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300">
+                                    Duração do crédito (meses)
+                                </td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 border-r-2 border-gray-300 text-right font-roboto tabular-nums"
+                                    id="parcelMonthsA"></td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                                    id="parcelMonthsB"></td>
+                            </tr>
+                            <tr class="border-t font-semibold">
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700">
+                                    Poupança (€)
+                                </td>
+                                <td class="px-4 py-2 lg:text-lg text-sm text-gray-700 text-right font-roboto tabular-nums"
+                                    colspan="2" id="parcelSavings"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

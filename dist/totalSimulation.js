@@ -141,20 +141,20 @@ function simulateTotalCredit(interestRate, months, creditValue, minMonthlyValue,
     let amortSimulationResult = simulateCreditWithAmort(creditValue, months, interestRate, monthlyCharges, amortValue, amortPeriod, amortComission, minMonthlyValue, months, 0);
     resultBox.classList.remove("hidden");
     document.getElementById("totalA").textContent =
-        noAmortSimulationResult.total + " €";
+        noAmortSimulationResult.total.toFixed(2) + " €";
     document.getElementById("totalB").textContent =
-        amortSimulationResult.total + " €";
+        amortSimulationResult.total.toFixed(2) + " €";
     document.getElementById("interestA").textContent =
-        noAmortSimulationResult.inInterest + " €";
+        noAmortSimulationResult.inInterest.toFixed(2) + " €";
     document.getElementById("interestB").textContent =
-        amortSimulationResult.inInterest + " €";
+        amortSimulationResult.inInterest.toFixed(2) + " €";
     document.getElementById("monthsA").textContent =
         months.toString();
     document.getElementById("monthsB").textContent =
         amortSimulationResult.endMonth.toString();
     document.getElementById("amortsB").textContent =
-        amortSimulationResult.inAmort + " €";
+        amortSimulationResult.inAmort.toFixed(2) + " €";
     document.getElementById("savings").textContent =
-        (parseFloat(noAmortSimulationResult.total) -
-            parseFloat(amortSimulationResult.total)).toFixed(2) + " €";
+        (noAmortSimulationResult.total - amortSimulationResult.total).toFixed(2) +
+            " €";
 }

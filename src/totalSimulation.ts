@@ -252,14 +252,14 @@ function simulateTotalCredit(
 
   resultBox.classList.remove("hidden");
   (document.getElementById("totalA") as HTMLTableCellElement).textContent =
-    noAmortSimulationResult.total + " €";
+    noAmortSimulationResult.total.toFixed(2) + " €";
   (document.getElementById("totalB") as HTMLTableCellElement).textContent =
-    amortSimulationResult.total + " €";
+    amortSimulationResult.total.toFixed(2) + " €";
 
   (document.getElementById("interestA") as HTMLTableCellElement).textContent =
-    noAmortSimulationResult.inInterest + " €";
+    noAmortSimulationResult.inInterest.toFixed(2) + " €";
   (document.getElementById("interestB") as HTMLTableCellElement).textContent =
-    amortSimulationResult.inInterest + " €";
+    amortSimulationResult.inInterest.toFixed(2) + " €";
 
   (document.getElementById("monthsA") as HTMLTableCellElement).textContent =
     months.toString();
@@ -267,11 +267,9 @@ function simulateTotalCredit(
     amortSimulationResult.endMonth.toString();
 
   (document.getElementById("amortsB") as HTMLTableCellElement).textContent =
-    amortSimulationResult.inAmort + " €";
+    amortSimulationResult.inAmort.toFixed(2) + " €";
 
   (document.getElementById("savings") as HTMLTableCellElement).textContent =
-    (
-      parseFloat(noAmortSimulationResult.total) -
-      parseFloat(amortSimulationResult.total)
-    ).toFixed(2) + " €";
+    (noAmortSimulationResult.total - amortSimulationResult.total).toFixed(2) +
+    " €";
 }
