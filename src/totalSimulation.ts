@@ -1,3 +1,4 @@
+import { Workbook } from "exceljs";
 import {
   formatDecimalNumber,
   formatInteger,
@@ -280,4 +281,153 @@ function simulateTotalCredit(
   (document.getElementById("savings") as HTMLTableCellElement).textContent =
     (noAmortSimulationResult.total - amortSimulationResult.total).toFixed(2) +
     " €";
+
+  let totalSimulationBook = new Workbook();
+  totalSimulationBook.calcProperties.fullCalcOnLoad = true;
+
+  let noAmortSheet = totalSimulationBook.addWorksheet("NO AMORT");
+  noAmortSheet.getColumn("A").width = 8;
+  noAmortSheet.getColumn("B").width = 8;
+  noAmortSheet.getColumn("C").width = 20;
+  noAmortSheet.getColumn("C").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  noAmortSheet.getColumn("D").width = 20;
+  noAmortSheet.getColumn("D").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  noAmortSheet.getColumn("E").width = 20;
+  noAmortSheet.getColumn("E").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  noAmortSheet.getColumn("F").width = 20;
+  noAmortSheet.getColumn("F").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  noAmortSheet.getColumn("G").width = 20;
+  noAmortSheet.getColumn("G").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+
+  let amortSheet = totalSimulationBook.addWorksheet("AMORT");
+  amortSheet.getColumn("A").width = 8;
+  amortSheet.getColumn("B").width = 8;
+  amortSheet.getColumn("C").width = 20;
+  amortSheet.getColumn("C").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("D").width = 20;
+  amortSheet.getColumn("D").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("E").width = 20;
+  amortSheet.getColumn("E").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("F").width = 20;
+  amortSheet.getColumn("F").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("G").width = 20;
+  amortSheet.getColumn("G").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("H").width = 20;
+  amortSheet.getColumn("H").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("I").width = 20;
+  amortSheet.getColumn("I").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+
+  noAmortSheet.addTable({
+    name: "Monthly",
+    ref: "A1",
+    headerRow: true,
+    totalsRow: true,
+    style: {
+      theme: "TableStyleLight1",
+      showRowStripes: true,
+    },
+    columns: [
+      { name: "Year" },
+      { name: "Month" },
+      {
+        name: "Monthly Payment",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Interest Payment",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Fixed Charges",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Credit amortization",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      { name: "Remaining Debt", totalsRowFunction: "min", filterButton: false },
+    ],
+    rows: noAmortSimulationResult.rows,
+  });
+
+  amortSheet.addTable({
+    name: "AmortMonthly",
+    ref: "A1",
+    headerRow: true,
+    totalsRow: true,
+    style: {
+      theme: "TableStyleLight1",
+      showRowStripes: true,
+      showFirstColumn: true,
+      showLastColumn: true,
+    },
+    columns: [
+      { name: "Year" },
+      { name: "Month" },
+      {
+        name: "Monthly Payment",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Interest Payment",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Fixed Charges",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Credit amortization",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Extra amortization",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Amortization commission",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      { name: "Remaining Debt", totalsRowFunction: "min", filterButton: false },
+    ],
+    rows: amortSimulationResult.rows,
+  });
+
+  createDownloadLink(totalSimulationBook);
+}
+
+async function createDownloadLink(workbook: Workbook) {
+  try {
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    let link;
+    if (resultBox.querySelector("a") != null) {
+      link = resultBox.querySelector("a");
+    } else {
+      link = document.createElement("a");
+    }
+
+    const url = window.URL.createObjectURL(blob);
+    link!.className =
+      "underline text-blue-600 hover:text-blue-800 visited:text-purple-600";
+    link!.href = url;
+    link!.innerText = "Download full report";
+    link!.download = "TotalSimulationReport.xlsx";
+    resultBox.appendChild(link!);
+  } catch (err) {
+    console.error("Error generating Excel file:", err);
+  }
 }
