@@ -1,3 +1,4 @@
+import { Workbook } from "exceljs";
 import {
   formatDecimalNumber,
   restrictDecimalInput,
@@ -490,6 +491,7 @@ function simulateParcels(
     total: 0,
     inInterest: 0,
     debtRemaining: creditValue,
+    rows: [],
   };
   let amortSimulationResult: AmortSimulationResult = {
     total: 0,
@@ -497,6 +499,7 @@ function simulateParcels(
     inInterest: 0,
     endMonth: 0,
     debtRemaining: creditValue,
+    rows: [],
   };
 
   for (let i = 0; i < parcels.length; i++) {
@@ -511,6 +514,8 @@ function simulateParcels(
       currentMonth
     );
 
+    noAmortSimulationResult.rows.push([`Start of ${i + 1} period.`]);
+    amortSimulationResult.rows.push([`Start of ${i + 1} period.`]);
     noAmortSimulationResult = {
       total:
         noAmortSimulationResult.total + noAmortParcelSimulationResult.total,
@@ -518,6 +523,9 @@ function simulateParcels(
         noAmortSimulationResult.inInterest +
         noAmortParcelSimulationResult.inInterest,
       debtRemaining: noAmortParcelSimulationResult.debtRemaining,
+      rows: noAmortSimulationResult.rows.concat(
+        noAmortParcelSimulationResult.rows
+      ),
     };
 
     if (amortSimulationResult.debtRemaining > 0) {
@@ -543,8 +551,13 @@ function simulateParcels(
           amortParcelSimulationResult.inInterest,
         endMonth: amortParcelSimulationResult.endMonth,
         debtRemaining: amortParcelSimulationResult.debtRemaining,
+        rows: amortSimulationResult.rows.concat(
+          amortParcelSimulationResult.rows
+        ),
       };
-      console.log(amortSimulationResult, amortParcelSimulationResult);
+
+      noAmortSimulationResult.rows.push([`End of ${i + 1} period.`]);
+      amortSimulationResult.rows.push([`End of ${i + 1} period.`]);
     }
 
     currentMonth += parcel.duration;
@@ -588,4 +601,153 @@ function simulateParcels(
   ).textContent =
     (noAmortSimulationResult.total - amortSimulationResult.total).toFixed(2) +
     " €";
+
+  let parcelSimulationBook = new Workbook();
+  parcelSimulationBook.calcProperties.fullCalcOnLoad = true;
+
+  let noAmortSheet = parcelSimulationBook.addWorksheet("NO AMORT");
+  noAmortSheet.getColumn("A").width = 8;
+  noAmortSheet.getColumn("B").width = 8;
+  noAmortSheet.getColumn("C").width = 20;
+  noAmortSheet.getColumn("C").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  noAmortSheet.getColumn("D").width = 20;
+  noAmortSheet.getColumn("D").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  noAmortSheet.getColumn("E").width = 20;
+  noAmortSheet.getColumn("E").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  noAmortSheet.getColumn("F").width = 20;
+  noAmortSheet.getColumn("F").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  noAmortSheet.getColumn("G").width = 20;
+  noAmortSheet.getColumn("G").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+
+  let amortSheet = parcelSimulationBook.addWorksheet("AMORT");
+  amortSheet.getColumn("A").width = 8;
+  amortSheet.getColumn("B").width = 8;
+  amortSheet.getColumn("C").width = 20;
+  amortSheet.getColumn("C").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("D").width = 20;
+  amortSheet.getColumn("D").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("E").width = 20;
+  amortSheet.getColumn("E").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("F").width = 20;
+  amortSheet.getColumn("F").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("G").width = 20;
+  amortSheet.getColumn("G").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("H").width = 20;
+  amortSheet.getColumn("H").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+  amortSheet.getColumn("I").width = 20;
+  amortSheet.getColumn("I").numFmt = '"$"#,##0.00;[Red]-"$"#,##0.00';
+
+  noAmortSheet.addTable({
+    name: "Monthly",
+    ref: "A1",
+    headerRow: true,
+    totalsRow: true,
+    style: {
+      theme: "TableStyleLight1",
+      showRowStripes: true,
+    },
+    columns: [
+      { name: "Year" },
+      { name: "Month" },
+      {
+        name: "Monthly Payment",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Interest Payment",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Fixed Charges",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Credit amortization",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      { name: "Remaining Debt", totalsRowFunction: "min", filterButton: false },
+    ],
+    rows: noAmortSimulationResult.rows,
+  });
+
+  amortSheet.addTable({
+    name: "AmortMonthly",
+    ref: "A1",
+    headerRow: true,
+    totalsRow: true,
+    style: {
+      theme: "TableStyleLight1",
+      showRowStripes: true,
+      showFirstColumn: true,
+      showLastColumn: true,
+    },
+    columns: [
+      { name: "Year" },
+      { name: "Month" },
+      {
+        name: "Monthly Payment",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Interest Payment",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Fixed Charges",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Credit amortization",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Extra amortization",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      {
+        name: "Amortization commission",
+        totalsRowFunction: "sum",
+        filterButton: false,
+      },
+      { name: "Remaining Debt", totalsRowFunction: "min", filterButton: false },
+    ],
+    rows: amortSimulationResult.rows,
+  });
+
+  createDownloadLink(parcelSimulationBook);
+}
+
+async function createDownloadLink(workbook: Workbook) {
+  try {
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    let link;
+    if (parcelResultBox.querySelector("a") != null) {
+      link = parcelResultBox.querySelector("a");
+    } else {
+      link = document.createElement("a");
+    }
+
+    const url = window.URL.createObjectURL(blob);
+    link!.className =
+      "underline text-blue-600 hover:text-blue-800 visited:text-purple-600";
+    link!.href = url;
+    link!.innerText = "Download full report";
+    link!.download = "ParcelSimulationReport.xlsx";
+    parcelResultBox.appendChild(link!);
+  } catch (err) {
+    console.error("Error generating Excel file:", err);
+  }
 }

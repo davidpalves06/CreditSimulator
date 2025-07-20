@@ -29,7 +29,8 @@ export function simulateCreditNoAmort(
   let monthlyInterest = interestRate / 1200;
   monthsToCalc += startingMonth;
   let rows = [];
-  rows.push([1, 0, 0, 0, 0, 0, remainingDebt]);
+
+  if (startingMonth == 0) rows.push([1, 0, 0, 0, 0, 0, remainingDebt]);
 
   for (let i = startingMonth; i < monthsToCalc; i++) {
     let row: any[] = [];
@@ -88,7 +89,8 @@ export function simulateCreditWithAmort(
   let monthlyInterest = interestRate / 1200;
   let currentMonth = startingMonth;
   monthsToCalc += startingMonth;
-  rows.push([1, 0, 0, 0, 0, 0, 0, 0, remainingDebt]);
+  if (startingMonth == 0) rows.push([1, 0, 0, 0, 0, 0, 0, 0, remainingDebt]);
+
   while (
     currentMonth < months &&
     remainingDebt > 0 &&
@@ -138,7 +140,7 @@ export function simulateCreditWithAmort(
       encargos,
       amortização,
       amortedValue,
-      amortValue * amortComission * 0.01,
+      amortedValue * amortComission * 0.01,
       remainingDebt
     );
     rows.push(row);
